@@ -1,0 +1,84 @@
+TRANSLIT INSTALLATION
+     Program is given in the source form. It was tried under  UN*X,
+     VMS and MS-DOS systems and ran. The file readme.doc contains
+     the details on how to obtain  the  whole  package.  You  can
+     retrieve  this  file from anonymous ftp on www.ccl.net in
+     the directory /pub/russian/translit.  You can also obtain it
+     via e-mail by sending a message:
+       get translit/readme.doc from russian
+     to OSCPOST@ccl.net or OSCPOST@OHSTPY.BITNET.
+
+     The source of the program consists of several files:
+
+     paths.h
+          must be edited before compilation. It contains its  own
+          comments what to do. The defines in this file relate to
+          the operating system you are using and the default path
+          for searching transliteration table.
+
+     translit.c
+          It contains the main program.  This was intended to  be
+          a portable code.
+
+     reg_exp.h
+          the  include  file  for  regular  expression   matching
+          library   of  Henry  Spencer  from  the  University  of
+          Toronto. This regular expression package was posted  to
+          comp.sources.misc  (volume  3).  Also  4  patches  were
+          posted (in volumes: 3, 4, 4, 10). I applied the patches
+          to  the  original  code and made small modifications to
+          the code, which are marked in the source code.
+
+     reg_exp.c
+          the regular  expression  library  for  compilation  and
+          matching of regular expressions.
+
+     reg_sub.c
+          the regular expression substitution routine.
+
+
+     Before you compile this program you have  to  edit  paths.h.
+     Read  comments  in the file.  During compilation, all source
+     code should reside in the current directory.
+     Then you may compile the program under UN*X  as  (for  exam-
+     ple):
+       cc -o translit translit.c reg_exp.c reg_sub.c
+     and copy the program translit  to  some  standard  directory
+     which  is in users' path (for example: /usr/local/bin). Then
+     you need to copy transliteration  tables  to  the  directory
+     which  you  have chosen in paths.h.  If you get errors, then
+     it is not OK. Please, report them to the  author  (with  all
+     the  gory  details:  error  message,  line  number, machine,
+     operating system, etc.).
+
+     Under VMS (VAXes) you need to compile it as:
+       cc translit
+       cc reg_exp
+       cc reg_sub
+       link translit+reg_exp+reg_sub,sys$library:vaxcrtl/lib
+     and before you can use the program, you  need  to  type  (or
+     better put into your LOGIN.COM file) a line:
+       translit == "$SYS$USER:[ME.TRA]TRANSLIT.EXE"
+     or whatever is the full  path  to  the  translit  executable
+     image which you created with LINK. Note the quotes and the $
+     sign in front of program path.
+
+     On an IBM-PC I used MicroSoft C 5.1 as:
+      cl /FeTRANSLIT /AL /FPc /W1  /F  5000  /Ox  /Gs  translit.c
+       reg_exp.c reg_sub.c
+
+     You can also use "make" if you have it. Two ready to run 
+     Makefiles are included:
+        Makefile.unx       (for UNIX)
+        Makefile.os2       (for OS/2)
+     You need to give the following commands
+        make -f Makefile.xxx 
+        make -f Makefile.xxx  clean
+     where Makefile.xxx is the Makefile corresponding to your system.
+     Then you need to copy the TRANSLIT to the directory in your PATH,
+     and transliteration tables (*.rus) to the directory chosen as TPATH
+     in paths.h.
+     
+AUTHOR
+     Jan Labanowski, P.O. Box  21821,  Columbus,  OH  43221-0821,
+     USA.  E-mail: jkl@ccl.net, JKL@OHSTPY.BITNET.

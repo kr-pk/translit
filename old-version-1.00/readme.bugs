@@ -1,0 +1,11 @@
+This file lists bugs in translit. Latest set of fixes are available as
+"original_file_name".fixed.
+Currently there are following files with fixes applied to them:
+   translit.c.fixed
+
+/* 3/29/93 Jan Labanowski. Thanks to Leonid A. Broukhis (leo@ipmce.su)
+   I noticed that translit will not work correctly if SHIFT-IN and SHIFT-OUT
+   is the same sequence. The modification was made in which code detecting
+   SHIFT-IN and SHIFT-OUT exchanged places (i.e., program looks for SHIFT-IN
+   before it looks for SHIFT-OUT). This patch is available in file:
+   translit.c.fixed */

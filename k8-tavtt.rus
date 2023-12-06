@@ -1,0 +1,140 @@
+# David Crawford, 71553.1200@compuserve.com, 10 Feb 1994
+# file k8-tavtt.rus
+# Adapted from Jan Labanowski files
+
+# This is a transliteration table for converting from KOI8 (RELCOM, GOST
+# 19768-74, etc) to the character mapping used by Bill Tavolga's cyrillic 
+# truetype font.  Tavolga's font maps cyrillic characters to the GOST 
+# keyboard layout. After transliteration, the output text file may be
+# loaded into Word for Windows or any other editor capable of displaying
+# text in a selected truetype font. 
+
+# This will work best for KOI-8 files with no roman alfa characters, since
+# all punctuation is remapped to character values that don't match ASCII.
+
+# To be used with translit.c program by Jan Labanowski
+
+   1            file version number
+
+   "    "      # string delimiters
+   [    ]      # list delimites
+   {    }      # regular expression delimiters
+
+
+#starting sequence
+""
+
+
+#ending sequence
+""
+   0     # number of input SHIFT sequences, only one set of output characters
+
+   0     # number of output SHIFT sequences, only one set of input characters
+
+# conversion table
+
+# inp_set_numb  inp_seq        out_set_numb  out_seq
+
+# Remap punctuation in a compromising manner
+  0      "!"           0       "@"       #exclamation
+  0      "\0x22"       0       "$"       #quote to upper quote
+  0      "#"           0       "\0xA7"   #pound to numero
+  0      "$"           0       " "       #dollar to space
+  0      "%"           0       " "       #percent to space
+  0      "&"           0       " "       #ampersand to space
+  0      "\0x27"       0       "\0x98"   #apostrophe
+  0      "("           0       "("       #left paren
+  0      ")"           0       ")"       #right paren
+  0      "*"           0       "\0xA1"   #asterisk
+  0      "+"           0       "~"       #plus
+  0      ","           0       "-"       #comma
+  0      "-"           0       "_"       #en dash
+  0      "."           0       "="       #period
+  0      "/"           0       "#"       #foreslash
+  0      [0-9]         0       [0-9]     #numbers same
+  0      ":"           0       "%"       #colon
+  0      ";"           0       "+"       #semicolon
+  0      "<"           0       "^"       #lt to left guillemet
+  0      "="           0       "`"       #equals
+  0      ">"           0       "&"       #gt to right guillemet
+  0      "?"           0       "*"       #question mark
+  0      "@"           0       " "       #at to space
+  0      [A-Z]         0       [A-Z]     #pass alfa chars w/screwed up punctuation
+  0      "["           0       "("       #left bracket to left paren
+  0      "\"           0       "\"       #backslash
+  0      "]"           0       ")"       #right bracket to right paren
+  0      "^"           0       " "       #caret to space
+  0      "_"           0       "!"       #underscore
+  0      "`"           0       "\0x98"   #back apostrophe to apostrophe
+  0      [a-z]         0       [a-z]     #pass alfa chars w/ screwed up punctuation
+  0      "{"           0       "("       #left brace to left paren
+  0      "|"           0       "|"       #pipe
+  0      "}"           0       ")"       #right brace to right paren
+  0      "~"           0       " "       #tilde to space
+# Russian letters
+  0      "\0xA3"       0       "/"       #small yo
+  0      "\0xB3"       0       "?"       #capital YO
+  0      "\0xE1"       0       "F"       #capital  A
+  0      "\0xE2"       0       "<"       #capital  Be
+  0      "\0xF7"       0       "D"       #capital  Ve
+  0      "\0xE7"       0       "U"       #capital  Ghe
+  0      "\0xE4"       0       "L"       #capital  De
+  0      "\0xE5"       0       "T"       #capital  Ie
+  0      "\0xF6"       0       ":"       #capital  Zhe
+  0      "\0xFA"       0       "P"       #capital  Ze
+  0      "\0xE9"       0       "B"       #capital  I
+  0      "\0xEA"       0       "Q"       #capital  short I
+  0      "\0xEB"       0       "R"       #capital  Ka
+  0      "\0xEC"       0       "K"       #capital  El
+  0      "\0xED"       0       "V"       #capital  Em
+  0      "\0xEE"       0       "Y"       #capital  En
+  0      "\0xEF"       0       "J"       #capital  O
+  0      "\0xF0"       0       "G"       #capital  Pe
+  0      "\0xF2"       0       "H"       #capital  Er
+  0      "\0xF3"       0       "C"       #capital  Es
+  0      "\0xF4"       0       "N"       #capital  Te
+  0      "\0xF5"       0       "E"       #capital  U
+  0      "\0xE6"       0       "A"       #capital  Ef
+  0      "\0xE8"       0       "{"       #capital  Kha
+  0      "\0xE3"       0       "W"       #capital  Tse
+  0      "\0xFE"       0       "X"       #capital  Che
+  0      "\0xFB"       0       "I"       #capital  Sha
+  0      "\0xFD"       0       "O"       #capital  Shcha
+  0      "\0xFF"       0       "}"       #capital hard sign (Ier)
+  0      "\0xF9"       0       "S"       #capital  Y (Iery)
+  0      "\0xF8"       0       "M"       #capit soft sign(Ierik)
+  0      "\0xFC"       0       "\0x22"   #capit reverse rounded E
+  0      "\0xE0"       0       ">"       #capital  Yu
+  0      "\0xF1"       0       "Z"       #capital  Ya
+  0      "\0xC1"       0       "f"       #small  a
+  0      "\0xC2"       0       ","       #small  be
+  0      "\0xD7"       0       "d"       #small  ve
+  0      "\0xC7"       0       "u"       #small  ghe
+  0      "\0xC4"       0       "l"       #small  de
+  0      "\0xC5"       0       "t"       #small  ie
+  0      "\0xD6"       0       ";"       #small  zhe
+  0      "\0xDA"       0       "p"       #small  z
+  0      "\0xC9"       0       "b"       #small  i
+  0      "\0xCA"       0       "q"       #small  short i
+  0      "\0xCB"       0       "r"       #small  ka
+  0      "\0xCC"       0       "k"       #small  el
+  0      "\0xCD"       0       "v"       #small  em
+  0      "\0xCE"       0       "y"       #small  en
+  0      "\0xCF"       0       "j"       #small  o
+  0      "\0xD0"       0       "g"       #small  pe
+  0      "\0xD2"       0       "h"       #small  er
+  0      "\0xD3"       0       "c"       #small  es
+  0      "\0xD4"       0       "n"       #small  te
+  0      "\0xD5"       0       "e"       #small  u
+  0      "\0xC6"       0       "a"       #small  ef
+  0      "\0xC8"       0       "["       #small  kha
+  0      "\0xC3"       0       "w"       #small  tse
+  0      "\0xDE"       0       "x"       #small  che
+  0      "\0xDB"       0       "i"       #small  sha
+  0      "\0xDD"       0       "o"       #small  shcha
+  0      "\0xDF"       0       "]"       #small hard sign (ier)
+  0      "\0xD9"       0       "s"       #small  y (iery)
+  0      "\0xD8"       0       "m"       #small soft sign (ierik)
+  0      "\0xDC"       0       "\0x27"   #small  rev rounded e
+  0      "\0xC0"       0       "."       #small  yu
+  0      "\0xD1"       0       "z"       #small  ya

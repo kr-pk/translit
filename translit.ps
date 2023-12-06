@@ -1,0 +1,3524 @@
+%!PS
+%%Version: 3.15
+%%DocumentFonts: (atend)
+%%Pages: (atend)
+%%EndComments
+%ident	"@(#)lp:filter/postscript/postscript/dpost.ps	1.1"
+%
+% Version 3.16 prologue for troff files.
+%
+
+/#copies 1 store
+/aspectratio 1 def
+/formsperpage 1 def
+/landscape false def
+/linewidth .3 def
+/magnification 1 def
+/margin 0 def
+/orientation 0 def
+/resolution 720 def
+/xoffset 0 def
+/yoffset 0 def
+
+/roundpage true def
+/useclippath true def
+/pagebbox [0 0 612 792] def
+
+/R  /Times-Roman def
+/I  /Times-Italic def
+/B  /Times-Bold def
+/BI /Times-BoldItalic def
+/H  /Helvetica def
+/HI /Helvetica-Oblique def
+/HB /Helvetica-Bold def
+/HX /Helvetica-BoldOblique def
+/CW /Courier def
+/CO /Courier def
+/CI /Courier-Oblique def
+/CB /Courier-Bold def
+/CX /Courier-BoldOblique def
+/PA /Palatino-Roman def
+/PI /Palatino-Italic def
+/PB /Palatino-Bold def
+/PX /Palatino-BoldItalic def
+/Hr /Helvetica-Narrow def
+/Hi /Helvetica-Narrow-Oblique def
+/Hb /Helvetica-Narrow-Bold def
+/Hx /Helvetica-Narrow-BoldOblique def
+/KR /Bookman-Light def
+/KI /Bookman-LightItalic def
+/KB /Bookman-Demi def
+/KX /Bookman-DemiItalic def
+/AR /AvantGarde-Book def
+/AI /AvantGarde-BookOblique def
+/AB /AvantGarde-Demi def
+/AX /AvantGarde-DemiOblique def
+/NR /NewCenturySchlbk-Roman def
+/NI /NewCenturySchlbk-Italic def
+/NB /NewCenturySchlbk-Bold def
+/NX /NewCenturySchlbk-BoldItalic def
+/ZD /ZapfDingbats def
+/ZI /ZapfChancery-MediumItalic def
+/VR /Varitimes#Roman def
+/VI /Varitimes#Italic def
+/VB /Varitimes#Bold def
+/VX /Varitimes#BoldItalic def
+/S  /S def
+/S1 /S1 def
+/GR /Symbol def
+
+/inch {72 mul} bind def
+/min {2 copy gt {exch} if pop} bind def
+
+/setup {
+	counttomark 2 idiv {def} repeat pop
+
+	landscape {/orientation 90 orientation add def} if
+	/scaling 72 resolution div def
+	linewidth setlinewidth
+	1 setlinecap
+
+	pagedimensions
+	xcenter ycenter translate
+	orientation neg rotate
+	width 2 div neg height 2 div translate
+	xoffset inch yoffset inch translate
+	margin 2 div dup neg translate
+	magnification dup aspectratio mul scale
+	scaling scaling scale
+
+	/Symbol /S Sdefs cf
+	/Times-Roman /S1 S1defs cf
+	0 0 moveto
+} def
+
+/pagedimensions {
+	useclippath userdict /gotpagebbox known not and {
+		/pagebbox [clippath pathbbox newpath] def
+		roundpage currentdict /roundpagebbox known and {roundpagebbox} if
+	} if
+	pagebbox aload pop
+	4 -1 roll exch 4 1 roll 4 copy
+	landscape {4 2 roll} if
+	sub /width exch def
+	sub /height exch def
+	add 2 div /xcenter exch def
+	add 2 div /ycenter exch def
+	userdict /gotpagebbox true put
+} def
+
+/pagesetup {
+	/page exch def
+	currentdict /pagedict known currentdict page known and {
+		page load pagedict exch get cvx exec
+	} if
+} def
+
+/decodingdefs [
+	{counttomark 2 idiv {y moveto show} repeat}
+	{neg /y exch def counttomark 2 idiv {y moveto show} repeat}
+	{neg moveto {2 index stringwidth pop sub exch div 0 32 4 -1 roll widthshow} repeat}
+	{neg moveto {spacewidth sub 0.0 32 4 -1 roll widthshow} repeat}
+	{counttomark 2 idiv {y moveto show} repeat}
+	{neg setfunnytext}
+] def
+
+/setdecoding {/t decodingdefs 3 -1 roll get bind def} bind def
+
+/w {neg moveto show} bind def
+/m {neg dup /y exch def moveto} bind def
+/done {/lastpage where {pop lastpage} if} def
+
+/f {
+	dup /font exch def findfont exch
+	dup /ptsize exch def scaling div dup /size exch def scalefont setfont
+	linewidth ptsize mul scaling 10 mul div setlinewidth
+	/spacewidth ( ) stringwidth pop def
+} bind def
+
+/changefont {
+	/fontheight exch def
+	/fontslant exch def
+	currentfont [
+		1 0
+		fontheight ptsize div fontslant sin mul fontslant cos div
+		fontheight ptsize div
+		0 0
+	] makefont setfont
+} bind def
+
+/sf {f} bind def
+
+/cf {
+	dup length 2 idiv
+	/entries exch def
+	/chtab exch def
+	/newfont exch def
+
+	findfont dup length 1 add dict
+	/newdict exch def
+	{1 index /FID ne {newdict 3 1 roll put} {pop pop} ifelse} forall
+
+	newdict /Metrics entries dict put
+	newdict /Metrics get
+	begin
+		chtab aload pop
+		1 1 entries {pop def} for
+		newfont newdict definefont pop
+	end
+} bind def
+
+%
+% A few arrays used to adjust reference points and character widths in some
+% of the printer resident fonts. If square roots are too high try changing
+% the lines describing /radical and /radicalex to,
+%
+%	/radical	[0 -75 550 0]
+%	/radicalex	[-50 -75 500 0]
+%
+
+/Sdefs [
+	/bracketlefttp		[220 500]
+	/bracketleftbt		[220 500]
+	/bracketrighttp		[-70 380]
+	/bracketrightbt		[-70 380]
+	/braceleftbt		[220 490]
+	/bracketrightex		[220 -125 500 0]
+	/radical		[0 0 550 0]
+	% NeWSprint's \(br is too low, compensate
+	statusdict /product get (NeWS Server) eq {
+		/radicalex		[-50 100 500 0]
+		/parenleftex		[-20 100 0 0]
+
+	} {
+		/radicalex		[-50 0 500 0]
+		/parenleftex		[-20 -170 0 0]
+	} ifelse
+	/integral		[100 -50 500 0]
+	/infinity		[10 -75 730 0]
+] def
+
+/S1defs [
+	/underscore		[0 80 500 0]
+	/endash			[7 90 650 0]
+] def
+%%EndProlog
+%%BeginSetup
+mark
+/resolution 720 def
+setup
+2 setdecoding
+%%EndSetup
+%%Page: 1 1
+save
+mark
+1 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+9 B f
+(NAME)720 960 w
+10 I f
+(TRANSLIT)1080 1080 w
+10 R f
+( character)1 408(Program to transliterate texts in different character sets. The program converts input)11 3552 2 1440 1200 t
+( codes \(or sequences of)4 1030(codes \(or sequences of codes\) to a different set of output character)11 2930 2 1440 1320 t
+( with Latin)2 471(codes\). Intended for transliteration to/from phonetic representation of foreign letters)9 3489 2 1440 1440 t
+( supports simple matches, charac-)4 1394( It)1 130( for these letters.)3 698(letters from/to special national codes used)5 1738 4 1440 1560 t
+( transliteration schemes are easily)4 1391(ter lists and \257exible matches via regular expressions. The new)9 2569 2 1440 1680 t
+( supported for input)3 845(added by creating simple transliteration tables. Multiple character sets are)9 3115 2 1440 1800 t
+(and output. It does not yet support UNICODE, but some day it will.)12 2809 1 1440 1920 t
+9 B f
+(COPYRIGHT)720 2208 w
+10 R f
+(Copyright \(c\) 1993 Jan Labanowski and JKL Enterprises, Inc.)8 2543 1 1080 2328 t
+( may distribute the modi\256ed)4 1236( You)1 257( a complete set of \256les.)5 1056(You may distribute the Software only as)6 1771 4 1080 2448 t
+( you retain the Copyright notice and you do not delete original code, data, documenta-)14 3641(Software only if)2 679 2 1080 2568 t
+( not sell the software or incorporate it)7 1591( may)1 209( You)1 242( Software is copyrighted.)3 1040( The)1 225(tion and associated \256les.)3 1013 6 1080 2688 t
+( or JKL Enterprises, Inc.)4 1069(in the commercial product without written permission from Jan Labanowski)9 3251 2 1080 2808 t
+(You are allowed to charge for media and copying if you distribute the whole unaltered package.)15 3950 1 1080 2928 t
+9 B f
+(SYNOPSIS)720 3216 w
+10 B f
+(translit)1080 3336 w
+10 R f
+([)1424 3336 w
+10 B f
+(-i)1490 3336 w
+10 I f
+(inp\256le)1584 3336 w
+10 R f
+(][)1867 3336 w
+10 B f
+(-o)1966 3336 w
+10 I f
+(out\256le)2082 3336 w
+10 R f
+(][)2365 3336 w
+10 B f
+(-d)2464 3336 w
+10 R f
+(][)2586 3336 w
+10 B f
+(-t)2685 3336 w
+10 I f
+(transtbl)2784 3336 w
+10 S f
+(\372)3161 3336 w
+10 I f
+(transtbl)3276 3336 w
+10 R f
+(])3621 3336 w
+9 B f
+(OPTIONS)720 3624 w
+10 B f
+(-i)1080 3744 w
+10 I f
+(inp\256le)1174 3744 w
+(inp\256le)1440 3864 w
+10 R f
+( If)1 145( transliterated.)1 592(is a name of input \256le to be)7 1231 3 1735 3864 t
+10 S1 f
+(")3749 3864 w
+10 B f
+(-i)3790 3864 w
+10 S1 f
+(")3851 3864 w
+10 R f
+(is not speci\256ed, the input is taken)6 1462 1 3938 3864 t
+(from standard input.)2 829 1 1440 3984 t
+10 B f
+(-o)1080 4152 w
+10 I f
+(out\256le)1196 4152 w
+(out\256le)1440 4272 w
+10 R f
+(is an output \256le, where the transliterated text is stored. If)10 2388 1 1728 4272 t
+10 S1 f
+(")4154 4272 w
+10 B f
+(-o)4195 4272 w
+10 S1 f
+(")4278 4272 w
+10 R f
+(is not speci\256ed, the out-)4 1010 1 4390 4272 t
+(put is directed to the standard output. Program will not overwrite the existing \256le. If \256le exists,)16 3960 1 1440 4392 t
+(you need to delete it \256rst.)5 1056 1 1440 4512 t
+10 B f
+(-d)1080 4680 w
+10 R f
+( \256le are sent to standard)5 1071(Some information on character codes read from transliteration table)8 2889 2 1440 4680 t
+(error \()1 259 1 1440 4800 t
+10 S1 f
+(")1699 4800 w
+10 I f
+(stderr)1740 4800 w
+10 S1 f
+(")1979 4800 w
+10 R f
+(\). Useful when developing new transliteration tables.)6 2161 1 2020 4800 t
+10 B f
+(-t)1080 4968 w
+10 I f
+(transtbl)1179 4968 w
+(transtbl)1440 5088 w
+10 R f
+( transliteration table \256le which you want to use. The)9 2198(is a)1 148 2 1789 5088 t
+10 S1 f
+(")4173 5088 w
+10 B f
+(-t)4214 5088 w
+10 S1 f
+(")4280 5088 w
+10 R f
+(option may be omitted if)4 1041 1 4359 5088 t
+(the)1440 5208 w
+10 I f
+(transtbl)1604 5208 w
+10 R f
+(is speci\256ed as the last parameter on the command line. The program \256rst tries to)14 3442 1 1958 5208 t
+(locate)1440 5328 w
+10 I f
+(transtbl)1715 5328 w
+10 R f
+( not found, it searches the directory chosen at)8 1914(\256le in the current directory, and if)6 1422 2 2064 5328 t
+(compilation/installation time in)2 1331 1 1440 5448 t
+10 S1 f
+(")2833 5448 w
+10 I f
+(paths.h)2874 5448 w
+10 S1 f
+(")3166 5448 w
+10 R f
+(. If no)2 315 1 3207 5448 t
+10 S1 f
+(")3583 5448 w
+10 I f
+(transtbl)3624 5448 w
+10 S1 f
+(")3936 5448 w
+10 R f
+(is given, the default \256le name)5 1362 1 4038 5448 t
+(speci\256ed in)1 468 1 1440 5568 t
+10 S1 f
+(")1943 5568 w
+10 I f
+(paths.h)1984 5568 w
+10 S1 f
+(")2276 5568 w
+10 R f
+(is taken. The compile/installation time defaults in)6 2040 1 2352 5568 t
+10 S1 f
+(")4427 5568 w
+10 I f
+(paths.h)4468 5568 w
+10 S1 f
+(")4760 5568 w
+10 R f
+(for the search)2 564 1 4836 5568 t
+( overiden by setting environment variables: TRANSP)6 2215(directory and the default \256le name can be)7 1745 2 1440 5688 t
+(and TRANSF, respectively \(see below\).)4 1629 1 1440 5808 t
+9 B f
+(ENVIRONMENT VARIABLES)1 1265 1 720 6096 t
+10 R f
+( tables can be overiden by setting environment)7 1994(The default path to the directory holding transliteration)7 2326 2 1080 6216 t
+( table can be overiden by setting TRANSF)7 1834(variable TRANSP. The default name for the transliteration)7 2486 2 1080 6336 t
+( transliteration \256le is given on the command line, it will)10 2525(environment variable. However, when the)4 1795 2 1080 6456 t
+( environment variables)2 939( are some examples of setting)5 1249( Here)1 264(overide the defaults and environment setting.)5 1868 4 1080 6576 t
+(for different operating systems:)3 1280 1 1080 6696 t
+10 I f
+(UN)1280 6936 w
+10 S f
+(*)1419 6936 w
+10 I f
+(X System)1 371 1 1469 6936 t
+10 R f
+(If you are using)3 653 1 1346 7056 t
+10 I f
+(csh)2032 7056 w
+10 R f
+(\(C-shell\):)2198 7056 w
+(setenv TRANSP /home/john/translit/)2 1495 1 1511 7176 t
+(setenv TRANSF koi8-tex.rus)2 1185 1 1511 7296 t
+( 1)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7776 t
+cleartomark
+showpage
+restore
+%%EndPage: 1 1
+%%Page: 2 2
+save
+mark
+2 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+(If you are using)3 653 1 1346 960 t
+10 I f
+(sh)2032 960 w
+10 R f
+(\(Bourne Shell\):)1 627 1 2154 960 t
+(set TRANSP=/home/john/translit/)1 1374 1 1511 1080 t
+(export TRANSP)1 672 1 1511 1200 t
+(set TRANSF=koi8-tex.rus)1 1064 1 1511 1320 t
+(export TRANSF)1 672 1 1511 1440 t
+10 I f
+(VAX-VMS System)1 720 1 1280 1560 t
+10 R f
+(TRANSP:==SYS$USER:[JOHN.TRANSLIT])1511 1680 w
+(TRANSF:==KOI8-TEX.TBL)1511 1800 w
+10 I f
+(PC-DOS or MS-DOS)2 870 1 1280 1920 t
+10 R f
+(SET TRANSP=C:)1 746 1 1511 2040 t
+10 S1 f
+(\\)2273 2040 w
+10 R f
+(JOHN)2317 2040 w
+10 S1 f
+(\\)2588 2040 w
+10 R f
+(TRANSLIT)2632 2040 w
+10 S1 f
+(\\)3131 2040 w
+10 R f
+(SET TRANSF=KOI8-TEX.TBL)1 1319 1 1511 2160 t
+(Note that the directory path has to include concluding slashes,)9 2552 1 1080 2280 t
+10 S1 f
+(\\)3681 2280 w
+10 R f
+( .)1 57(or /)1 160 2 3758 2280 t
+9 B f
+(EXAMPLES)720 2688 w
+10 R f
+(cat text.koi8)1 502 1 1580 2808 t
+10 S f
+(\372)2147 2808 w
+10 R f
+(translit koi8-tex.rus)1 791 1 2262 2808 t
+10 S1 f
+(>)3086 2808 w
+10 R f
+(text.tex)3175 2808 w
+(in UN)1 255 1 1080 2928 t
+10 S f
+(*)1335 2928 w
+10 R f
+(X is equivalent to:)3 760 1 1385 2928 t
+(translit -t koi8-tex.rus -o text.tex -i text.koi8)6 1811 1 1580 3168 t
+(and converts \256le text.koi8 to \256le text.tex using transliteration speci\256ed in the \256le koi8-tex.rus.)13 3855 1 1080 3288 t
+(translit -i text.koi8 koi8-cl.rus)3 1221 1 1580 3528 t
+( converted text from \256le text.koi8 on your terminal. The conversion table is koi8-cl.rus)13 3819(displays the)1 501 2 1080 3648 t
+(\(KOI8 --)1 359 1 1080 3768 t
+10 S1 f
+(>)1439 3768 w
+10 R f
+(Library of Congress\).)2 878 1 1528 3768 t
+(translit -i text.alt -t alt-koi8.rus)4 1265 1 1580 4008 t
+10 S f
+(\372)2910 4008 w
+10 R f
+(translit -o text.tex -t koi8-tex.rus)4 1331 1 3025 4008 t
+(is essentially equivalent to the following two commands in UN)9 2596 1 1080 4128 t
+10 S f
+(*)3676 4128 w
+10 R f
+(X or MS-DOS:)2 627 1 3726 4128 t
+(translit -i text.alt -o junk\256le -t alt-koi8.rus)6 1720 1 1580 4248 t
+(translit -i junk\256le -o text.tex -t koi8-ltx.rus)6 1748 1 1580 4368 t
+(and converts the \256le in ALT character set to a LaTeX \256le for printing.)13 2898 1 1080 4488 t
+(translit -i russ.txt pho-koi8.rus)3 1238 1 1580 4728 t
+10 S f
+(\372)2883 4728 w
+10 R f
+(translit -o russ.tex koi8-ltx.rus)3 1232 1 2998 4728 t
+(converts \256le russ.txt from phonetic transliteration to LaTeX \256le russ.tex for printing.)11 3468 1 1080 4848 t
+9 B f
+(TRANSLITERATION TABLES)1 1280 1 720 5376 t
+10 R f
+( available with the current distribution. Consult the comments in)9 2757(The following transliteration \256les are)4 1563 2 1080 5496 t
+(the individual \256les for details.)4 1229 1 1080 5616 t
+10 I f
+(koi8-tex.rus)1080 5784 w
+10 R f
+( news)1 247(Conversion table which changes the \256le in KOI8 \(8 bit character set used by RELCOM)14 3713 2 1440 5904 t
+(service\) to a Plain TeX \256le for printing with)8 1823 1 1440 6024 t
+10 I f
+(AMS)3296 6024 w
+10 R f
+(WNCYR fonts.)1 630 1 3523 6024 t
+10 I f
+(koi8-ltx.rus)1080 6192 w
+10 R f
+( news)1 247(Conversion table which changes the \256le in KOI8 \(8 bit character set used by RELCOM)14 3713 2 1440 6312 t
+(service\) to LaTeX \256le for printing with)6 1612 1 1440 6432 t
+10 I f
+(AMS)3085 6432 w
+10 R f
+(WNCYR fonts.)1 630 1 3312 6432 t
+10 I f
+(ltx-koi8.rus)1080 6600 w
+10 R f
+( it will not handle complicated)5 1304(Conversion table for the LaTeX to KOI8 conversion. Note that)9 2656 2 1440 6720 t
+( to the characters.)3 736( source)1 329( and only TeX can convert a LaTeX)7 1514(cases, since LaTeX is a program,)5 1381 4 1440 6840 t
+( work OK for simple cases of text only \256les, and may need some editing for)15 3179(However, it should)2 781 2 1440 6960 t
+(complicated cases.)1 756 1 1440 7080 t
+10 I f
+(k8-tavtt.rus)1080 7248 w
+10 R f
+( 2)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7728 t
+cleartomark
+showpage
+restore
+%%EndPage: 2 2
+%%Page: 3 3
+save
+mark
+3 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+(Converts KOI8 to Bill Tavolga cyrttf truetype font mapping.)8 2487 1 1440 960 t
+10 I f
+(hex-text.rus)1080 1128 w
+10 R f
+( convert characters with codes larger)5 1534(Converts hexcodes to actual codes. Some e-mail programs)7 2426 2 1440 1248 t
+( table converts hexadecimal)3 1225( This)1 274(than 127 to hexadecimal numbers like =AB, =9C, etc.)8 2461 3 1440 1368 t
+(numbers back to codes.)3 961 1 1440 1488 t
+10 I f
+(alt-gos.rus)1080 1656 w
+10 R f
+( ALT \(Bryabrins alternativnyj variant used)5 1781(This is a transliteration data \256le for converting from)8 2179 2 1440 1776 t
+(in many popular wordprocessors\) to GOSTSCII 84 \(approx. ISO-8859-5?\))8 3045 1 1440 1896 t
+10 I f
+(alt-koi8.rus)1080 2064 w
+10 R f
+( to be)2 276( is meant)2 413( KOI8)1 311(This is a transliteration data \256le for converting from ALT to KOI8.)11 2960 4 1440 2184 t
+(GOST 19768-74 \(as used by RELCOM\).)5 1683 1 1440 2304 t
+10 I f
+(gos-alt.rus)1080 2472 w
+10 R f
+( \256le for converting GOSTSCII 84 \(approx. ISO-8859-5?\) to ALT)9 2778(This is a transliteration data)4 1182 2 1440 2592 t
+(\(Bryabrins alternativnyj variant\))2 1308 1 1440 2712 t
+10 I f
+(gos-koi8.rus)1080 2880 w
+10 R f
+( to KOI8)2 389(This is a transliteration data \256le for converting GOSTSCII 84 \(approx. ISO-8859-5?\))11 3571 2 1440 3000 t
+(used by RELCOM KOI8 is meant to be GOST 19768-74)9 2351 1 1440 3120 t
+10 I f
+(koi8-alt.rus)1080 3288 w
+10 R f
+( meant to be GOST)4 901( is)1 122( KOI8)1 315(This is a transliteration data \256le for converting from KOI8.)9 2622 4 1440 3408 t
+(19768-74, to ALT \(Bryabrins alternativnyj variant\))5 2087 1 1440 3528 t
+10 I f
+(koi8-gos.rus)1080 3696 w
+10 R f
+( is meant to be)4 675( KOI8)1 308( from KOI8 \(Relcom\).)3 967(This is a transliteration data \256le for converting)7 2010 4 1440 3816 t
+(GOST 19768-74, to GOSTSCII 84 \(approx. ISO-8859-5\))6 2340 1 1440 3936 t
+10 I f
+(koi8-7.rus)1080 4104 w
+10 R f
+(This \256le converts from KOI8 to KOI7.)6 1593 1 1440 4224 t
+10 I f
+(koi7-8.rus)1080 4392 w
+10 R f
+( Before you attempt the conversion, you might need to)9 2325(This \256le converts from KOI7 to KOI8.)6 1635 2 1440 4512 t
+( \256le. You MUST read the comments in)7 1693(perform a simple edit on your)5 1290 2 1440 4632 t
+10 I f
+(koi7-8.rus)4500 4632 w
+10 R f
+(before you)1 448 1 4952 4632 t
+(attempt this conversion.)2 974 1 1440 4752 t
+10 I f
+(koi7nl-8.rus)1080 4920 w
+10 R f
+( in the input \256le. If you have)7 1285(This \256le assumes that there are only Russian letters \(no Latin\))10 2675 2 1440 5040 t
+(Latin letters, and you inserted SHIFT-OUT/IN characters, use \256le)8 2692 1 1440 5160 t
+10 I f
+(koi7-8.rus)4165 5160 w
+10 R f
+(.)4573 5160 w
+10 I f
+(koi8-lc.rus)1080 5328 w
+10 R f
+( extensions are added.)3 905( Some)1 294(This \256le converts KOI8 to the Library of Congress transliteration.)9 2702 3 1440 5448 t
+10 I f
+(koi8-php.rus)1080 5616 w
+10 R f
+(This \256le converts KOI8 to the Pokrovsky transliteration.)7 2310 1 1440 5736 t
+10 I f
+(php-koi8.rus)1080 5904 w
+10 R f
+(This \256le converts from Pokrovsky transliteration to KOI8.)7 2382 1 1440 6024 t
+10 I f
+(koi8-phg.rus)1080 6192 w
+10 R f
+(This \256le converts from KOI8 to GOST transliteration.)7 2215 1 1440 6312 t
+10 I f
+(phg-koi8.rus)1080 6480 w
+10 R f
+(This \256le converts from GOST transliteration to KOI8.)7 2215 1 1440 6600 t
+10 I f
+(pho-koi8.rus)1080 6768 w
+10 R f
+(This is a table which will convert from many)8 1910 1 1440 6888 t
+10 S1 f
+(")3389 6888 w
+10 R f
+(phonetic)3430 6888 w
+10 S1 f
+(")3774 6888 w
+10 R f
+(transliteration schemes to KOI8. It is)5 1546 1 3854 6888 t
+( it takes a lot of time to transliterate the \256le using this table. Some transliterations)15 3414(elaborate and)1 546 2 1440 7008 t
+( You)1 246( be bug free.)3 546(are hopeless and internally inconsistent \(as humans...\), so the results cannot)10 3168 3 1440 7128 t
+( than those assumed in)4 937(might want to modify the \256le, if your transliteration patterns are different)11 3023 2 1440 7248 t
+( 3)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7728 t
+cleartomark
+showpage
+restore
+%%EndPage: 3 3
+%%Page: 4 4
+save
+mark
+4 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+( convert-)1 370(this \256le. You may also want to simplify this \256le if the phonetic transliteration you are)15 3590 2 1440 960 t
+( c and t-s, h for)5 649(ing is a sound one \(most are not, e.g., they use e for je and e oborotnoye, ts for)18 3311 2 1440 1080 t
+(kha, i for i-kratkoe, etc.\).)4 1029 1 1440 1200 t
+9 B f
+(INTRODUCTION)720 1608 w
+10 R f
+( description and go)3 841(If you do not intend to write your own transliteration tables, you may skip this)14 3479 2 1080 1728 t
+( want to read this material)5 1200(directly to the installation and copyright sections. However, you might)9 3120 2 1080 1848 t
+( is frequently necessary to)4 1106( It)1 135( transliteration.)1 621(anyhow, to better understand the traps and complexities of)8 2458 4 1080 1968 t
+( set of characters \(or composite characters, phonemes, etc.\) to)9 2738(transliterate text, i.e., to change one)5 1582 2 1080 2088 t
+(another set.)1 468 1 1080 2208 t
+( the input \256le in some character set to)8 1610(On computers, the transliteration operation consists of converting)7 2710 2 1080 2376 t
+(the output \256le in another character set.)6 1581 1 1080 2496 t
+( transliterated, i.e, their codes are changed according to)8 2378(In the simplest case, the single characters are)7 1942 2 1080 2664 t
+( mapping, the task can)4 944(some transliteration table. This is called remapping and, assuming the one-to-one)10 3376 2 1080 2784 t
+(be accomplished by a simple pseudo program:)6 1901 1 1080 2904 t
+(new)1580 3024 w
+10 S f
+(_)1746 3024 w
+10 R f
+(char)1796 3024 w
+10 S f
+(_)1967 3024 w
+10 R f
+(code = character)2 674 1 2017 3024 t
+10 S f
+(_)2691 3024 w
+10 R f
+(map[old)2741 3024 w
+10 S f
+(_)3074 3024 w
+10 R f
+(char)3124 3024 w
+10 S f
+(_)3295 3024 w
+10 R f
+(code];)3345 3024 w
+( one set, but do not)5 831(If the one-to-one correspondence does not exist \(i.e., some codes may be present in)13 3489 2 1080 3192 t
+( there are 3)3 472(have corresponding codes in another set\), precise transliteration is not possible. In such cases)13 3848 2 1080 3312 t
+(obvious possibilities:)1 857 1 1080 3432 t
+(1. skip characters which do not have counterparts,)7 2054 1 1580 3552 t
+(2. retain unchanged codes of these characters,)6 1875 1 1580 3672 t
+(3. convert the codes to multicharacter sequences.)6 2004 1 1580 3792 t
+( than one character sets, e.g., the \256le can contain Latin charac-)11 2638(In some cases, the \256le can contain more)7 1682 2 1080 3912 t
+( \(e.g. Russian text\). If the character codes assigned to char-)10 2447(ters \(e.g. English text\) and Cyrillic characters)6 1873 2 1080 4032 t
+( not overlap, this is still a simple mapping problem. This is a case with KOI8)15 3269(acters in different sets do)4 1051 2 1080 4152 t
+( Russian, which reserve the lower 127 codes for standard ASCII codes)11 2970(or GOSTCII character tables for)4 1350 2 1080 4272 t
+(\(which include all Latin characters\) and characters with codes above 127 for Cyrillic letters.)13 3778 1 1080 4392 t
+( of the)2 305(If character codes overlap, there is a SHIFT-OUT/SHIFT-IN technique in which the meaning)12 4015 2 1080 4560 t
+( this case, the)3 568(character sequence is determined by an opening code \(or sequence of characters codes\). In)13 3752 2 1080 4680 t
+( of characters is determined by the SHIFT-OUT character \(or sequence\) which pre-)12 3442(meaning of the series)3 878 2 1080 4800 t
+( characters returns the)3 901(cedes them. The SHIFT-IN character \(or sequence\) following the series of)10 3056 2 1080 4920 t
+10 S1 f
+(")5070 4920 w
+10 R f
+(reader)5111 4920 w
+10 S1 f
+(")5359 4920 w
+10 R f
+( schemes are used:)3 769( To)1 177(to the default or previous status.)5 1322 3 1080 5040 t
+(\(char)1580 5160 w
+10 S f
+(_)1784 5160 w
+10 R f
+(set)1834 5160 w
+10 S f
+(_)1945 5160 w
+10 R f
+(1\)\(SHIFT-IN[1]\)\(SHIFT-OUT[2]\)\(char)1995 5160 w
+10 S f
+(_)3578 5160 w
+10 R f
+(set)3628 5160 w
+10 S f
+(_)3739 5160 w
+10 R f
+(2\)...)3789 5160 w
+(or)1080 5280 w
+(\(char)1580 5400 w
+10 S f
+(_)1784 5400 w
+10 R f
+(set)1834 5400 w
+10 S f
+(_)1945 5400 w
+10 R f
+(1\)\(SHIFT-OUT[2]\)\(char)1995 5400 w
+10 S f
+(_)2980 5400 w
+10 R f
+(set)3030 5400 w
+10 S f
+(_)3141 5400 w
+10 R f
+(2\)\(SHIFT-OUT[1]\)char)3191 5400 w
+10 S f
+(_)4143 5400 w
+10 R f
+(set)4193 5400 w
+10 S f
+(_)4304 5400 w
+10 R f
+(1...)4354 5400 w
+( most)1 232( by necessity language speci\256c \(the)5 1466( are)1 190(Since computer keyboards, screens, printers, software, etc.,)6 2432 4 1080 5640 t
+( problem of typing foreign language text which contains letters different)10 2984(popular being ASCII\), there is a)5 1336 2 1080 5760 t
+( letters to)2 410(than standard Latin alphabet. For this reason, many transliteration schemes use several Latin)12 3910 2 1080 5880 t
+(represent a single letter of foreign alphabet, for example:)8 2333 1 1080 6000 t
+(zh is used to represent cyrillic letter zhe,)7 1669 1 1080 6120 t
+10 S1 f
+(\\ ")1 85 1 2831 6120 t
+10 R f
+(o may be used to represent the o umlaut, etc.)9 1855 1 2916 6120 t
+( another alphabet, it is also easy to process. How-)9 2130(If there is one-to-one mapping of such sequences to)8 2190 2 1080 6360 t
+( a frequently used transliteration)4 1356(ever, it is necessary to substitute longest sequences \256rst. For example,)10 2964 2 1080 6480 t
+(for cyrillic letters:)2 737 1 1080 6600 t
+10 I f
+(shch)1280 6720 w
+10 R f
+(--- letter)1 605 1 1780 6720 t
+10 B f
+(shcza)2418 6720 w
+10 R f
+(221 \(decimal KOI8 code\))3 1046 1 3480 6720 t
+10 I f
+(sh)1280 6840 w
+10 R f
+(--- letter)1 605 1 1780 6840 t
+10 B f
+(sha)2418 6840 w
+10 R f
+(219)3480 6840 w
+10 I f
+(ch)1280 6960 w
+10 R f
+(--- letter)1 605 1 1780 6960 t
+10 B f
+(cze)2418 6960 w
+10 R f
+(222)3480 6960 w
+10 I f
+(c)1280 7080 w
+10 R f
+(--- letter)1 605 1 1780 7080 t
+10 B f
+(tse)2418 7080 w
+10 R f
+(195)3480 7080 w
+10 I f
+(h)1280 7200 w
+10 R f
+(--- letter)1 605 1 1780 7200 t
+10 B f
+(kha)2418 7200 w
+10 R f
+(200)3480 7200 w
+( 4)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7680 t
+cleartomark
+showpage
+restore
+%%EndPage: 4 4
+%%Page: 5 5
+save
+mark
+5 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+10 I f
+(a)1280 960 w
+10 R f
+(--- letter)1 605 1 1780 960 t
+10 B f
+(a)2418 960 w
+10 R f
+(193)3480 960 w
+( should proceed \256rst with converting all)6 1665(Obviously, in this case, we)4 1121 2 1080 1128 t
+10 I f
+(shch)3903 1128 w
+10 R f
+(sequences to)1 519 1 4123 1128 t
+10 B f
+(shcha)4679 1128 w
+10 R f
+(letter, then)1 439 1 4961 1128 t
+(two-character)1080 1248 w
+10 I f
+(sh)1663 1248 w
+10 R f
+(and)1788 1248 w
+10 I f
+(ch)1968 1248 w
+10 R f
+(, and then single character)4 1088 1 2062 1248 t
+10 B f
+(c)3185 1248 w
+10 R f
+(and)3264 1248 w
+10 B f
+(h)3443 1248 w
+10 R f
+( for the one-to-one transliteration,)4 1390(. Generally,)1 511 2 3499 1248 t
+( and the order of conversion within sequences of the)9 2294(the longest sequences should be precessed \256rst,)6 2026 2 1080 1368 t
+( example, converting the word)4 1273( For)1 211( makes no difference.)3 900(same length)1 495 4 1080 1488 t
+10 S1 f
+(")3998 1488 w
+10 R f
+(shchah)4039 1488 w
+10 S1 f
+(")4316 1488 w
+10 R f
+(to KOI8 should proceed)3 1004 1 4396 1488 t
+(in a following way:)3 804 1 1080 1608 t
+10 I f
+(shchah)1280 1728 w
+10 R f
+(--)1596 1728 w
+10 S1 f
+(>)1662 1728 w
+10 R f
+(\(221\))1751 1728 w
+10 I f
+(ah)1967 1728 w
+10 R f
+(, \(221\))1 274 1 2067 1728 t
+10 I f
+(ah)2341 1728 w
+10 R f
+(--)2474 1728 w
+10 S1 f
+(>)2540 1728 w
+10 R f
+(\(221\)\(193\))2629 1728 w
+10 I f
+(h)3061 1728 w
+10 R f
+(, \(221\)\(193\))1 490 1 3111 1728 t
+10 I f
+(h)3601 1728 w
+10 R f
+(--)3717 1728 w
+10 S1 f
+(>)3783 1728 w
+10 R f
+(\(221\)\(193\)\(200\))3872 1728 w
+( mind the fol-)3 580(There is a multitude of reasons why transliteration is done. I wrote this program having in)15 3740 2 1080 1848 t
+(lowing ones:)1 522 1 1080 1968 t
+(1\) to print cyrillic text using TeX/LaTeX and cyrillic fonts)9 2411 1 1280 2088 t
+(2\) to read KOI8 encoded messages from Russia on my ASCII terminal.)11 2939 1 1280 2208 t
+(However, I was trying to make it \257exible to accommodate other uses.)11 2864 1 1080 2328 t
+9 B f
+(PROGRAM OPERATION)1 1065 1 720 2616 t
+10 R f
+( to an output \256le using transliteration rules from the transliteration)10 2823(The program converts the input \256le)5 1497 2 1080 2736 t
+( you specify with option)4 1068(rule \256le which)2 627 2 1080 2856 t
+10 B f
+(-t)2824 2856 w
+10 R f
+( examples of transliteration rule \256les are enclosed.)7 2175(. Some)1 335 2 2890 2856 t
+(Before program can be used, the transliteration rules need to be speci\256ed.)11 3023 1 1080 2976 t
+(These are given as a \256le which consist of the following parts described below:)13 3229 1 1080 3144 t
+(1\) File format number \(it is 1 at this moment\))9 1891 1 1280 3264 t
+(2\) Delimiters used to enclose a\) simple strings, b\) character lists, c\) regular expressions)13 3589 1 1280 3384 t
+(3\) Starting sequence for output)4 1269 1 1280 3504 t
+(4\) Ending sequence for output)4 1241 1 1280 3624 t
+(5\) Number of input)3 798 1 1280 3744 t
+10 S1 f
+(")2111 3744 w
+10 R f
+(character sets)1 547 1 2152 3744 t
+10 S1 f
+(")2699 3744 w
+10 R f
+(6\) SHIFT-OUT/SHIFT-IN sequences for each input character set)7 2657 1 1280 3864 t
+(7\) Number of output)3 848 1 1280 3984 t
+10 S1 f
+(")2161 3984 w
+10 R f
+(character sets)1 547 1 2202 3984 t
+10 S1 f
+(")2749 3984 w
+10 R f
+(8\) SHIFT-OUT/SHIFT-IN sequences for each output character set)7 2707 1 1280 4104 t
+(9\) Transliteration table)2 931 1 1280 4224 t
+10 I f
+(GENERAL COMMENTS)1 1011 1 1080 4392 t
+10 R f
+( comments may be included in the \256le)7 1615( The)1 226( consists of comments and data.)5 1336(The transliteration rules \256le)3 1143 4 1080 4512 t
+(as:)1080 4632 w
+( starting with ! or)4 750(a\) line comments --- lines)4 1078 2 1380 4752 t
+10 S1 f
+(#)3247 4752 w
+10 R f
+(character \()1 436 1 3336 4752 t
+10 S1 f
+(#)3772 4752 w
+10 R f
+(or ! must be in the \256rst column of a)9 1539 1 3861 4752 t
+(line\) are treated as comments and are not read in by the program.)12 2692 1 1580 4872 t
+( one)1 187(b\) comments following all required entries on the line. They must be separated by at least)15 3833 2 1380 4992 t
+( entry on the line and need not start with any particular character.)12 2806(space from the last data)4 1014 2 1580 5112 t
+(These comments cannot be used within multiline sequences.)7 2470 1 1580 5232 t
+( strings may represent:)3 931( The)1 221(The data entries consist of integer numbers and strings.)8 2269 3 1080 5400 t
+(a\) plain strings)2 610 1 1280 5520 t
+(b\) character lists)2 675 1 1280 5640 t
+(c\) regular expressions)2 891 1 1280 5760 t
+( in the \256le, are processed through the)7 1566(All strings which appear)3 1015 2 1080 5928 t
+10 S1 f
+(")3699 5928 w
+10 R f
+(string processor)1 648 1 3740 5928 t
+10 S1 f
+(")4388 5928 w
+10 R f
+(, which allows entering)3 971 1 4429 5928 t
+( is speci\256ed as a backslash)5 1122( character code)2 628( The)1 226(unprintable characters as codes.)3 1307 4 1080 6048 t
+10 S1 f
+(" \\ ")2 142 1 4400 6048 t
+10 R f
+(followed by at least)3 821 1 4579 6048 t
+(2 digit\(s\) \(i.e.,)2 617 1 1080 6168 t
+10 S1 f
+(\\)1762 6168 w
+10 R f
+(01 produces code=1, but)3 1054 1 1806 6168 t
+10 S1 f
+(\\)2941 6168 w
+10 R f
+(1 is passed unchanged\). The following formats are sup-)8 2415 1 2985 6168 t
+(ported:)1080 6288 w
+10 S1 f
+(\\)1296 6408 w
+10 R f
+( of octal code 123 \(when leading zero present\))8 1914(0123 character)1 696 2 1340 6408 t
+10 S1 f
+(\\)1296 6528 w
+10 R f
+( of decimal code 123 \(when leading digit is not zero\))10 2193(123 character)1 679 2 1340 6528 t
+10 S1 f
+(\\)1296 6648 w
+10 R f
+(0o123 or)1 399 1 1340 6648 t
+10 S1 f
+(\\)1788 6648 w
+10 R f
+( of octal code 123)4 747(0O123 character)1 702 2 1832 6648 t
+10 S1 f
+(\\)1296 6768 w
+10 R f
+(0d123 or)1 399 1 1340 6768 t
+10 S1 f
+(\\)1788 6768 w
+10 R f
+( of decimal code 123)4 869(0D123 character)1 702 2 1832 6768 t
+10 S1 f
+(\\)1296 6888 w
+10 R f
+(0xA3 or)1 404 1 1340 6888 t
+10 S1 f
+(\\)1793 6888 w
+10 R f
+(0XA3 or)1 360 1 1837 6888 t
+10 S1 f
+(\\)2246 6888 w
+10 R f
+( of hexadecimal code A3)4 1029(0xa3 character)1 657 2 2290 6888 t
+( are 0-7 for octal codes, 0-9 for decimal codes and 0-F \(and/or 0-f\) for hexadecimal)15 3548(The allowed digits)2 772 2 1080 7056 t
+( a)1 78( a situation when code has to be followed by a digit character, you need to enter the digit as)19 3839(codes. In)1 403 3 1080 7176 t
+(code. E.g., if you want character)5 1363 1 1080 7296 t
+10 S1 f
+(\\)2498 7296 w
+10 R f
+( as a code)3 435(0xA3 followed by a letter C, you need to specify letter C)11 2423 2 2542 7296 t
+( 5)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7776 t
+cleartomark
+showpage
+restore
+%%EndPage: 5 5
+%%Page: 6 6
+save
+mark
+6 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+(\()1080 960 w
+10 S1 f
+(\\)1129 960 w
+10 R f
+(0x43 or)1 321 1 1173 960 t
+10 S1 f
+(\\)1548 960 w
+10 R f
+(103 or)1 271 1 1592 960 t
+10 S1 f
+(\\)1917 960 w
+10 R f
+(0o103 or)1 371 1 1961 960 t
+10 S1 f
+(\\)2386 960 w
+10 R f
+( as, e.g.,)2 351(0d67\) and type the sequence)4 1188 2 2430 960 t
+10 S1 f
+(\\)4055 960 w
+10 R f
+(0xA3)4099 960 w
+10 S1 f
+(\\)4337 960 w
+10 R f
+( resulting)1 387(103. Character)1 632 2 4381 960 t
+(in a code 0 \(zero\) \(e.g.,)5 1009 1 1080 1080 t
+10 S1 f
+(\\)2147 1080 w
+10 R f
+( tells:)1 238(00\) is special. It)3 689 2 2191 1080 t
+10 S1 f
+(")3194 1080 w
+10 R f
+(skip everything what follows me in this string)7 1962 1 3235 1080 t
+10 S1 f
+(")5197 1080 w
+10 R f
+(. It)1 162 1 5238 1080 t
+( you can always terminate the sequence with a delimiter. When you)11 2821(does not make sense to use it, since)7 1499 2 1080 1200 t
+( empty string as a matching sequence, remember that it does not match anything.)13 3336(use an)1 293 2 1080 1320 t
+( the string is too long to \256t a)8 1225( If)1 136(If the line with entries is too long, you can break it between the \256elds.)14 2959 3 1080 1560 t
+( it before any nonblank character by the)7 1671(line, you can break)3 798 2 1080 1680 t
+10 S1 f
+(\\)3602 1680 w
+10 R f
+(\(backslash\) followed by white space \(i.e.,)5 1717 1 3683 1680 t
+(new lines, spaces, tabs, etc.\). The)5 1400 1 1080 1800 t
+10 S1 f
+(\\)2535 1800 w
+10 R f
+(and the following white space will be removed from the string by)11 2781 1 2619 1800 t
+( preprocessor. However, you are not allowed to break the individual character codes \(and you)14 3930(the string)1 390 2 1080 1920 t
+( example:)1 399( For)1 205(probably would not do it ever for aestetic purposes\).)8 2152 3 1080 2040 t
+10 S1 f
+(")1280 2160 w
+10 R f
+(experi)1321 2160 w
+10 S1 f
+(\\)1570 2160 w
+10 R f
+(mental design)1 566 1 1280 2280 t
+10 S1 f
+(")1846 2280 w
+10 R f
+(is equivalent to:)2 655 1 1080 2400 t
+10 S1 f
+(")1280 2520 w
+10 R f
+(experimental design)1 815 1 1321 2520 t
+10 S1 f
+(")2136 2520 w
+10 R f
+(while:)1080 2640 w
+10 S1 f
+(")1280 2760 w
+10 R f
+(experimental)1321 2760 w
+10 S1 f
+(\\)1842 2760 w
+10 R f
+(design)1280 2880 w
+10 S1 f
+(")1541 2880 w
+10 R f
+(is equivalent to:)2 655 1 1080 3000 t
+10 S1 f
+(")1280 3120 w
+10 R f
+(experimentaldesign)1321 3120 w
+10 S1 f
+(")2103 3120 w
+10 R f
+(If you need to have)4 802 1 1080 3240 t
+10 S1 f
+(\\)1931 3240 w
+10 R f
+( to enter either a backslash or a space)8 1556(followed by a space in your string, you need)8 1836 2 2008 3240 t
+(following it as an explicit character code, for example:)8 2245 1 1080 3360 t
+10 S1 f
+( \\)1 60(" \\)1 85 2 1280 3480 t
+10 R f
+(0o40)1441 3480 w
+10 S1 f
+(")1641 3480 w
+10 R f
+(will produce a)2 587 1 1080 3600 t
+10 S1 f
+(\\)1716 3600 w
+10 R f
+(followed by the space, while the string:)6 1621 1 1793 3600 t
+10 S1 f
+( ")1 189(" \\)1 85 2 1280 3720 t
+10 R f
+(will be empty.)2 591 1 1080 3840 t
+( lines.)1 253(The preprocessor knows only about comments, plain characters, character codes, and continuation)11 4067 2 1080 4080 t
+( their combinations may have a special meaning in lists and regular)11 3007(However, some characters and)3 1313 2 1080 4200 t
+(expressions.)1080 4320 w
+10 I f
+(DETAILS OF FILE STRUCTURE)3 1388 1 1080 4680 t
+10 R f
+( on a line by itself at the moment. This entry is)11 2119(Ad.1\) File format number. This is simply a digit 1)9 2201 2 1080 4968 t
+( allow future extensions of the transliteration description \256le without the need to)12 3544(included to)1 476 2 1380 5088 t
+( the current \256le for-)4 829(modify older transliteration descriptions \(program will read data according to)9 3191 2 1380 5208 t
+(mat number given in the \256le\).)5 1228 1 1380 5328 t
+( specify pairs of single character delimiters for 3 types of)10 2378(Ad.2\) String delimiters. The subsequent 3 lines)6 1942 2 1080 5568 t
+( line format is:)3 610( The)1 221(text data.)1 374 3 1380 5688 t
+(opening)1580 5808 w
+10 S f
+(_)1902 5808 w
+10 R f
+(character closing)1 785 1 1952 5808 t
+10 S f
+(_)2737 5808 w
+10 R f
+(character.)2787 5808 w
+( string \(text)2 509( Each)1 281( of the text data.)4 742(These are needed to mark the beginning/end and the type)9 2488 4 1380 5928 t
+( delimiter, and ends at the last char-)7 1488(datum\) is saved starting from the \256rst character after opening)9 2532 2 1380 6048 t
+( closing delimiter. If you need to use the closing delimiter within a string, you)14 3367(acter before the)2 653 2 1380 6168 t
+(need to specify it as its code \(e.g., if you are using \(\) pair as delimiters, specify)16 3384 1 1380 6288 t
+10 S1 f
+(")4804 6288 w
+10 R f
+(\))4845 6288 w
+10 S1 f
+(")4878 6288 w
+10 R f
+(as)4959 6288 w
+10 S1 f
+(\\)5098 6288 w
+10 R f
+(0x29\).)5142 6288 w
+(The opening delimiter may be the same or different from the closing delimiter.)12 3244 1 1380 6408 t
+(a\) The \256rst line contains characters used to enclose \(bracket\) a)10 2717 1 1380 6648 t
+10 I f
+(plain string)1 489 1 4145 6648 t
+10 R f
+(. Plain strings are)3 766 1 4634 6648 t
+( suggest to stick to)4 805( I)1 106( input data or directly sent to output.)7 1560(directly matched to)2 803 4 1580 6768 t
+10 S1 f
+(" ")1 155 1 4894 6768 t
+10 R f
+(pair for)1 311 1 5089 6768 t
+( ASCII code for)3 691( The)1 230(plain strings.)1 534 3 1580 6888 t
+10 S1 f
+(")3077 6888 w
+10 R f
+(is)3160 6888 w
+10 S1 f
+(\\)3285 6888 w
+10 R f
+(0d34 =)1 298 1 3329 6888 t
+10 S1 f
+(\\)3685 6888 w
+10 R f
+(0x22 =)1 298 1 3729 6888 t
+10 S1 f
+(\\)4085 6888 w
+10 R f
+( it inside the)3 546(0o42 if you need)3 725 2 4129 6888 t
+(string itself.)1 486 1 1580 7008 t
+( the)1 166(b\) The second line contains characters to mark the beginning and the end of)13 3258 2 1380 7248 t
+10 I f
+(list)4848 7248 w
+10 R f
+(. Lists are)2 429 1 4971 7248 t
+( 6)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7728 t
+cleartomark
+showpage
+restore
+%%EndPage: 6 6
+%%Page: 7 7
+save
+mark
+7 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+( suggest [ and ] delimiters for the list \(ASCII code)10 2093( I)1 100( character codes.)2 684(used to translate single)3 943 4 1580 960 t
+(of)1580 1080 w
+10 S1 f
+(")1705 1080 w
+10 R f
+(])1746 1080 w
+10 S1 f
+(")1779 1080 w
+10 R f
+(is:)1862 1080 w
+10 S1 f
+(\\)2048 1080 w
+10 R f
+(0d93 =)1 298 1 2092 1080 t
+10 S1 f
+(\\)2448 1080 w
+10 R f
+(0x5D =)1 320 1 2492 1080 t
+10 S1 f
+(\\)2870 1080 w
+10 R f
+( [a-zA-)1 334(0o135\). The lists may include ranges, for example:)7 2152 2 2914 1080 t
+( that order is impor-)4 851( Note)1 265( capital\) and digits.)3 805(Z0-9] will include all Latin letters \(small and)7 1899 4 1580 1200 t
+( equivalent to [abcd], while [d-a] will result in an error. If you want to include)15 3308(tant: [a-d] is)2 512 2 1580 1320 t
+10 S1 f
+(")1580 1440 w
+10 R f
+(-)1621 1440 w
+10 S1 f
+(")1654 1440 w
+10 R f
+( are only)2 375(\(minus\) in the list, you need to place it as the \256rst or the last character. There)16 3291 2 1734 1440 t
+(two special characters on the list, the)6 1520 1 1580 1560 t
+10 S1 f
+(")3133 1560 w
+10 R f
+(-)3174 1560 w
+10 S1 f
+(")3207 1560 w
+10 R f
+(described above, and the)3 1010 1 3281 1560 t
+10 S1 f
+(")4324 1560 w
+10 R f
+(])4365 1560 w
+10 S1 f
+(")4398 1560 w
+10 R f
+( need to)2 334(character. You)1 594 2 4472 1560 t
+(enter the)1 372 1 1580 1680 t
+10 S1 f
+(")2003 1680 w
+10 R f
+(])2044 1680 w
+10 S1 f
+(")2077 1680 w
+10 R f
+( ASCII character table [)4 1052(as its code. E.g., for)4 897 2 2169 1680 t
+10 S f
+(*)4118 1680 w
+10 R f
+(--] is equivalent to [)4 893 1 4168 1680 t
+10 S f
+(*)5061 1680 w
+10 R f
+(+,-], is)1 289 1 5111 1680 t
+(equivalent to [)2 595 1 1580 1800 t
+10 S1 f
+(\\)2191 1800 w
+10 R f
+(42)2235 1800 w
+10 S1 f
+(\\)2351 1800 w
+10 R f
+(43)2395 1800 w
+10 S1 f
+(\\)2511 1800 w
+10 R f
+(44)2555 1800 w
+10 S1 f
+(\\)2671 1800 w
+10 R f
+( the list does not matter unless the)7 1428(45]. The order of characters in)5 1257 2 2715 1800 t
+( to the output list \(this will be explained later\). Empty lists do not)13 2911(input list corresponds)2 909 2 1580 1920 t
+(make sense.)1 490 1 1580 2040 t
+( delimiters for)2 590(c\) The third line of delimiter speci\256cation contains)7 2105 2 1380 2280 t
+10 I f
+(regular expression)1 764 1 4112 2280 t
+10 R f
+(s and)1 220 1 4876 2280 t
+10 I f
+(substi-)5133 2280 w
+(tution expression)1 696 1 1580 2400 t
+10 R f
+( strings are used for)4 827(s. These)1 370 2 2276 2400 t
+10 S1 f
+(")3508 2400 w
+10 R f
+(\257exible)3549 2400 w
+10 S1 f
+(")3849 2400 w
+10 R f
+( the text in the input \256le.)6 1035(matches to)1 440 2 3925 2400 t
+(They are very similar to the ones used in UN)9 1956 1 1580 2520 t
+10 S f
+(*)3536 2520 w
+10 R f
+( grep,)1 279(X for searching text in utilities like:)6 1535 2 3586 2520 t
+( only a subset of full UN)6 1042(sed, vi, awk, etc., though)4 1036 2 1580 2640 t
+10 S f
+(*)3658 2640 w
+10 R f
+(X regular expression syntax is used here.)6 1692 1 3708 2640 t
+(I suggest enclosing them within braces)5 1641 1 1580 2760 t
+10 S f
+({)3264 2760 w
+10 R f
+(and)3355 2760 w
+10 S f
+(})3542 2760 w
+10 R f
+(\(ASCII code for)2 684 1 3633 2760 t
+10 S f
+(})4361 2760 w
+10 R f
+(is)4453 2760 w
+10 S1 f
+(\\)4580 2760 w
+10 R f
+(0d125 =)1 350 1 4624 2760 t
+10 S1 f
+(\\)5034 2760 w
+10 R f
+(0x7D =)1 322 1 5078 2760 t
+10 S1 f
+(\\)1596 2880 w
+10 R f
+( for input sequences, and for output)6 1483(0o175\). Actually, regular expressions can only be used)7 2277 2 1640 2880 t
+(sequences the)1 567 1 1580 3000 t
+10 S f
+({})2188 3000 w
+10 R f
+( explained below.)2 741(are used to enclose substitution sequences. This will be)8 2334 2 2325 3000 t
+( is adapted from the docu-)5 1115(The description of the syntax for regular/substitution expressions)7 2705 2 1580 3120 t
+( Henry Spencer, University of Toronto --- this regular)8 2292(mentation for the regexp package of)5 1528 2 1580 3240 t
+(expression package was incorporated, after minute modi\256cations, into the program.)9 3405 1 1580 3360 t
+10 B f
+(REGULAR EXPRESSION SYNTAX)2 1617 1 2681 3720 t
+10 R f
+( `)1 69( by)1 169( more branches, separated)3 1068(A regular expression is zero or)5 1277 4 1580 3840 t
+10 S f
+(\372)4195 3840 w
+10 R f
+( matches anything that)3 935('. It)1 188 2 4277 3840 t
+( `)1 66( The)1 221(matches one of the branches.)4 1187 3 1580 3960 t
+10 S f
+(\372)3086 3960 w
+10 R f
+(' simply means)2 627 1 3168 3960 t
+10 S1 f
+(")3828 3960 w
+10 R f
+(or)3869 3960 w
+10 S1 f
+(")3952 3960 w
+10 R f
+(.)3993 3960 w
+( the \256rst, fol-)3 654( for)1 184( matches a match)3 720( It)1 129(A branch is zero or more pieces, concatenated.)7 1933 5 1780 4080 t
+(lowed by a match for the second, etc.)7 1544 1 1580 4200 t
+( is an atom possibly followed by `)7 1498(A piece)1 326 2 1780 4320 t
+10 S f
+(*)3604 4320 w
+10 R f
+(', `+', or `?'. An atom followed by)7 1746 1 3654 4320 t
+(`)1580 4440 w
+10 S f
+(*)1613 4440 w
+10 R f
+( followed by `+')3 811( atom)1 245( An)1 200( more matches of the atom.)5 1187( a sequence of 0 or)5 855(' matches)1 439 6 1663 4440 t
+( `?' matches)2 517( atom followed by)3 772( An)1 194( sequence of 1 or more matches of the atom.)9 1894(matches a)1 443 5 1580 4560 t
+(zero or one occurrences of atom.)5 1346 1 1580 4680 t
+( the regular)2 500( for)1 197( match)1 292( \(matching a)2 611( is a regular expression in parentheses)6 1651(An atom)1 369 6 1780 4800 t
+( `)1 67( character\), a)2 600( any single)2 451( \(matching)1 472(expression\), a range \(see below\), `.')5 1473 5 1580 4920 t
+10 S1 f
+(\\)4659 4920 w
+10 R f
+( a)1 77(' followed by)2 620 2 4703 4920 t
+( that character\), or a single character with no other signi\256cance)10 2722(single character \(matching)2 1098 2 1580 5040 t
+( character\).)1 455(\(matching that)1 621 2 1580 5160 t
+( normally matches any single)4 1211( It)1 162( ]'.)1 123( in `[)2 280( characters enclosed)2 822(A range is a sequence of)5 1022 6 1780 5280 t
+( begins with `)3 580( the sequence)2 561( If)1 136(character from the sequence.)3 1181 4 1580 5400 t
+10 S1 f
+(\303)4038 5400 w
+10 R f
+( charac-)1 361(', it matches any single)4 968 2 4071 5400 t
+( two characters in the sequence are separated by `-',)9 2154( If)1 134( from the rest of the sequence.)6 1265(ter not)1 267 4 1580 5520 t
+( between them \(e.g. `[0-9]' matches)5 1491( list of ASCII characters)4 1154( for the full)3 491(this is shorthand)2 684 4 1580 5640 t
+( it the \256rst character \(fol-)5 1060( make)1 286( include a literal `]' in the sequence,)7 1519( To)1 181(any decimal digit\).)2 774 5 1580 5760 t
+(lowing a possible `)3 788 1 1580 5880 t
+10 S1 f
+(\303)2368 5880 w
+10 R f
+( character. The regu-)3 856( or last)2 356( include a literal `-', make it the \256rst)8 1517('\). To)1 270 4 2401 5880 t
+( pair. These subex-)3 822( \))1 65( which are enclosed in a \()6 1145(lar expression can contains subexpressions)4 1788 4 1580 6000 t
+( 9 and can be nested. The numbering of subexpressions is given)11 2656(pressions are numbered 1 to)4 1164 2 1580 6120 t
+(in the order of their opening parentheses)6 1661 1 1580 6240 t
+10 S1 f
+(")3274 6240 w
+10 R f
+(\()3315 6240 w
+10 S1 f
+(")3348 6240 w
+10 R f
+(. For example:)2 596 1 3389 6240 t
+(\(111\)...\(22\(333\)222\(444\)222\)...\(555\))2180 6360 w
+(Note that expression 2 contains within itself expressions 3 and 4.)10 2675 1 1580 6480 t
+( below)1 286(These subexpressions can be referenced in the substitution string which is described)11 3534 2 1580 6600 t
+(in the paragraph below, or can be used to delimit atoms.)10 2321 1 1580 6720 t
+(Examples:)1780 6840 w
+10 S f
+({)1780 6960 w
+10 R f
+([)1828 6960 w
+10 S1 f
+(\\)1877 6960 w
+10 R f
+(0d32)1921 6960 w
+10 S1 f
+(\\)2137 6960 w
+10 R f
+(0d09])2181 6960 w
+10 S1 f
+(\\)2430 6960 w
+10 R f
+(0d10)2474 6960 w
+10 S f
+(})2674 6960 w
+10 R f
+(--- will match space or tab followed by new line)9 1993 1 2755 6960 t
+10 S f
+({)1780 7080 w
+10 R f
+([Tt][Ss])1828 7080 w
+10 S f
+(})2144 7080 w
+10 R f
+(--- will match TS, Ts, tS and ts)7 1292 1 2225 7080 t
+10 S f
+({)1780 7200 w
+10 R f
+(TS)1828 7200 w
+10 S f
+(\372)1977 7200 w
+10 R f
+(Ts)2059 7200 w
+10 S f
+(\372)2191 7200 w
+10 R f
+(tS)2273 7200 w
+10 S f
+(\372)2389 7200 w
+10 R f
+(ts)2471 7200 w
+10 S f
+(})2538 7200 w
+10 R f
+(--- same as above)3 724 1 2619 7200 t
+( 7)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7680 t
+cleartomark
+showpage
+restore
+%%EndPage: 7 7
+%%Page: 8 8
+save
+mark
+8 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+10 S f
+({)1780 960 w
+10 R f
+([)1828 960 w
+10 S1 f
+(\\)1877 960 w
+10 R f
+(0d09-)1921 960 w
+10 S1 f
+(\\)2170 960 w
+10 R f
+(0d15 ][)1 305 1 2214 960 t
+10 S1 f
+(\303)2519 960 w
+10 R f
+(hH][)2552 960 w
+10 S1 f
+(\303)2740 960 w
+10 R f
+(uU][a-zA-Z])2773 960 w
+10 S f
+(*)3281 960 w
+10 R f
+([)3331 960 w
+10 S1 f
+(\\)3380 960 w
+10 R f
+(0d09-)3424 960 w
+10 S1 f
+(\\)3673 960 w
+10 R f
+(0d15 ])1 272 1 3717 960 t
+10 S f
+(})3989 960 w
+10 R f
+( do not start)3 520(--- all words which)3 804 2 4076 960 t
+(with hu, Hu, hU, HU. There is a space between)9 1959 1 1980 1080 t
+10 S1 f
+(\\)3988 1080 w
+10 R f
+(0d15 and ].)2 468 1 4032 1080 t
+( like)1 205(Note that specifying expressions)3 1388 2 1980 1200 t
+10 S f
+({)3628 1200 w
+10 R f
+(.)3676 1200 w
+10 S f
+(*})3701 1200 w
+10 R f
+(\(i.e., match all characters\) does not)5 1546 1 3854 1200 t
+( sense, since it would mean here: match the whole input \256le. However,)12 2946(make much)1 474 2 1980 1320 t
+(expressions like)1 650 1 1980 1440 t
+10 S f
+({)2664 1440 w
+10 R f
+(A.)2712 1440 w
+10 S f
+(*)2809 1440 w
+10 R f
+(B)2859 1440 w
+10 S f
+(})2926 1440 w
+10 R f
+( B,)1 127(should be acceptable, since they match a pair of A and)10 2265 2 3008 1440 t
+( for a string like:)4 714(and everything in between them, e.g.)5 1540 2 1980 1560 t
+10 S1 f
+(")4271 1560 w
+10 R f
+(This is Mr. Allen and this)5 1088 1 4312 1560 t
+(is Mr. Brown.)2 577 1 1980 1680 t
+10 S1 f
+(")2557 1680 w
+10 R f
+(this expression should match the string:)5 1626 1 2631 1680 t
+10 S1 f
+(")4290 1680 w
+10 R f
+(Allen and this is Mr. B)5 957 1 4331 1680 t
+10 S1 f
+(")5288 1680 w
+10 R f
+(.)5329 1680 w
+(Remember to put a backslash)4 1260 1 1580 1800 t
+10 S1 f
+(" \\ ")2 142 1 2886 1800 t
+10 R f
+( [ \( \))3 195( of the following characters: .)5 1285(in front)1 318 3 3074 1800 t
+10 S f
+(\372)4904 1800 w
+10 R f
+(? +)1 132 1 4986 1800 t
+10 S f
+(*)5150 1800 w
+10 S1 f
+(\\)5248 1800 w
+10 R f
+(if)5339 1800 w
+( Inside the range they have)5 1142( ].)1 90( literal meaning outside the range enclosed in [)8 1981(you want their)2 607 4 1580 1920 t
+( you know the syntax of UN)6 1192( If)1 134(their literal meaning.)2 853 3 1580 2040 t
+10 S f
+(*)3759 2040 w
+10 R f
+(X regular expressions, please note that)5 1591 1 3809 2040 t
+10 S1 f
+(\303)1612 2160 w
+10 R f
+( treated as normal characters \(with the exception)7 1999( are not supported and are)5 1083(and $ anchors)2 606 3 1712 2160 t
+(of)1580 2280 w
+10 S1 f
+(\303)1728 2280 w
+10 R f
+( ]\).)1 123(negation within [)2 699 2 1826 2280 t
+10 B f
+(SUBSTITUTION EXPRESSIONS)1 1481 1 2749 2520 t
+10 R f
+( It)1 137( made.)1 284(After \256nding a match for a regular expression in the input text, a substitution is)14 3399 3 1580 2640 t
+( another string,)2 628(can be a simple substitution where the whole matching string is replaced by)12 3192 2 1580 2760 t
+( portion or the whole matching string. The subexpressions \(the ones)10 3031(or it may reuse a)4 789 2 1580 2880 t
+( input text can be)4 744(enclosed in parentheses\) within the regular expression which matched the)9 3076 2 1580 3000 t
+( special mean-)2 604( the following characters have)4 1254( Only)1 271(referenced in the substitution expression.)4 1691 4 1580 3120 t
+(ing within substitution expression:)3 1406 1 1580 3240 t
+( will put the whole matching string.)6 1473(& ---)1 399 2 1780 3360 t
+10 S1 f
+(\\)1796 3480 w
+10 R f
+( \).)1 90( will put the match for the 1st subexpression in \()10 2012(1 ---)1 339 3 1840 3480 t
+10 S1 f
+(\\)1796 3600 w
+10 R f
+( will put the string which matched 2nd subexpression, etc.)9 2395(2 ---)1 339 2 1840 3600 t
+10 S1 f
+(\\)1796 3720 w
+10 R f
+( a replacement string the 9th subexpression \(provided that there)9 2663( will place in)3 558(9 ---)1 339 3 1840 3720 t
+( pairs in the regular expression\))5 1301( \))1 65(was 9 \()2 304 3 1980 3840 t
+( other characters and sequences within the substitu-)7 2152( All)1 199(Only 9 subexpressions are allowed.)4 1469 3 1580 4080 t
+( able to put a single)5 845(tion expression will be placed in a substitution string as written. To be)12 2975 2 1580 4200 t
+( the unchanged codes of)4 1020( be able to place)4 700( To)1 182(backslash there, you need to put two of them.)8 1918 4 1580 4320 t
+( need to precede them with a backslash)7 1623(the above characters \(i.e., to make them literals\), you)8 2197 2 1580 4440 t
+10 S1 f
+(" \\ ")2 142 1 1580 4560 t
+10 R f
+( to get & in the output string you need to write it as)13 2203(, i.e.,)1 208 2 1722 4560 t
+10 S1 f
+(\\)4186 4560 w
+10 R f
+(&. Similarly, to place literal)4 1170 1 4230 4560 t
+10 S1 f
+(\\)1596 4680 w
+10 R f
+(1,)1640 4680 w
+10 S1 f
+(\\)1770 4680 w
+10 R f
+(2, etc., you need to enter it as)7 1268 1 1814 4680 t
+10 S1 f
+(\\ \\)1 88 1 3137 4680 t
+10 R f
+(1,)3241 4680 w
+10 S1 f
+(\\ \\)1 88 1 3371 4680 t
+10 R f
+( that characters .+[]\(\))3 883( Note)1 266(2, etc.)1 255 3 3475 4680 t
+10 S1 f
+(\303)4879 4680 w
+10 R f
+(, etc. which)2 488 1 4912 4680 t
+( in the regular expressions, do not have any special meaning in the)12 2882(had a special meaning)3 938 2 1580 4800 t
+(substitution expression and will be output as written.)7 2167 1 1580 4920 t
+(Example:)1780 5040 w
+(The regular expression:)2 958 1 1780 5160 t
+10 S f
+({)1780 5280 w
+10 R f
+(\([Tt]\)\([Ss]\))1828 5280 w
+10 S f
+(})2276 5280 w
+10 R f
+( substitution expression)2 1015(and the corresponding)2 955 2 2383 5280 t
+10 S f
+({)4413 5280 w
+10 S1 f
+(\\)4477 5280 w
+10 R f
+(1.)4521 5280 w
+10 S1 f
+(\\)4612 5280 w
+10 R f
+(2)4656 5280 w
+10 S f
+(})4706 5280 w
+10 R f
+(puts a period)2 586 1 4814 5280 t
+(between adjoining letters t and s preserving their letter case.)9 2467 1 1980 5400 t
+(The expression:)1 643 1 1980 5520 t
+10 S f
+({)1780 5640 w
+10 R f
+(\([A-Za-z]+\)-[)1828 5640 w
+10 S1 f
+(\\)2418 5640 w
+10 R f
+(0x09])2462 5640 w
+10 S f
+(*)2695 5640 w
+10 R f
+(\([)2745 5640 w
+10 S1 f
+(\\)2827 5640 w
+10 R f
+(0x0A-)2871 5640 w
+10 S1 f
+(\\)3142 5640 w
+10 R f
+(0x0D]+\)[)3186 5640 w
+10 S1 f
+(\\)3612 5640 w
+10 R f
+(0x09])3656 5640 w
+10 S f
+(*)3889 5640 w
+10 R f
+(\([A-Za-z,.?;:)3939 5640 w
+10 S1 f
+(" \\)1 85 1 4442 5640 t
+10 R f
+(\)'`!]+\)[)4543 5640 w
+10 S1 f
+(\\)4879 5640 w
+10 R f
+(0x09])4923 5640 w
+10 S f
+(})5156 5640 w
+10 R f
+(and the substitution expression)3 1302 1 1980 5760 t
+10 S f
+({)3329 5760 w
+10 S1 f
+(\\)3393 5760 w
+10 R f
+(1)3437 5760 w
+10 S1 f
+(\\)3503 5760 w
+10 R f
+(3)3547 5760 w
+10 S1 f
+(\\)3613 5760 w
+10 R f
+(2)3657 5760 w
+10 S f
+(})3707 5760 w
+10 R f
+( \(when you under-)3 803(dehyphenate words)1 795 2 3802 5760 t
+( changed to)2 506( is)1 148( \(NL\)cert)1 462( con-)1 258( one, you are a guru...\). For example:)7 1641(stand this)1 405 6 1980 5880 t
+( looks for one or more letters)6 1333(concert\(NL\), where NL stands for New Line. It)7 2087 2 1980 6000 t
+(\(saves them as substring 1\) followed by a hyphen \(which may be followed by zero)14 3420 1 1980 6120 t
+( \(ASCII char-)2 566(or more spaces or tabs\). The hyphen must be followed by a NewLine)12 2854 2 1980 6240 t
+( hex form various new line sequences\) and saves NewLine sequence)10 2871(acters 0A-0D)1 549 2 1980 6360 t
+( for zero or more tabs and spaces \(at the)9 1835( it looks)2 375( Then)1 289(as a subexpression 2.)3 921 4 1980 6480 t
+( the rest of the hyphenated word and saves)8 1768(beginning of the line\). Then it looks for)7 1652 2 1980 6600 t
+( it looks again)3 621( Then)1 282(it as substring 3. The word may have punctuation attached.)9 2517 3 1980 6720 t
+( which)1 293(for some spaces or tabs. The substitution expression junks all sequences)10 3127 2 1980 6840 t
+( but in a)3 355(were not within \(\), i.e., hyphen and spaces/tabs and inserts only substrings)11 3065 2 1980 6960 t
+(different order. The)2 821 1 1980 7080 t
+10 S1 f
+(\\)2861 7080 w
+10 R f
+(1 \(word beginning\) is followed by)5 1463 1 2905 7080 t
+10 S1 f
+(\\)4428 7080 w
+10 R f
+( fol-)1 187(3 \(word end\) and)3 741 2 4472 7080 t
+( NewLine ---)2 562(lowed by the)2 556 2 1980 7200 t
+10 S1 f
+(\\)3160 7200 w
+10 R f
+(2. The)1 276 1 3204 7200 t
+10 S f
+({)3526 7200 w
+10 S1 f
+(\\)3590 7200 w
+10 R f
+(2)3634 7200 w
+10 S1 f
+(\\)3700 7200 w
+10 R f
+(1)3744 7200 w
+10 S1 f
+(\\)3810 7200 w
+10 R f
+(3)3854 7200 w
+10 S f
+(})3904 7200 w
+10 R f
+(would be probably equally good,)4 1402 1 3998 7200 t
+( 8)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7680 t
+cleartomark
+showpage
+restore
+%%EndPage: 8 8
+%%Page: 9 9
+save
+mark
+9 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+( to the beginning of the)5 975( the punctuation matching)3 1071( move)1 290(though you would need to)4 1084 4 1980 960 t
+(regular expression.)1 767 1 1980 1080 t
+( enclosed in the)3 672(Ad.3\) Starting sequence. This sequence will be sent to the output before any text. It is)15 3648 2 1080 1200 t
+( it to output LaTeX preamble. However, it can be empty, if not)12 2738(pair of string delimiters. I use)5 1282 2 1380 1320 t
+( \(sequence\) may contain any characters, including new lines, etc.)9 2665(used. The)1 429 2 1380 1440 t
+(Example:)1580 1560 w
+10 S1 f
+("" #)1 462 1 1780 1680 t
+10 R f
+(empty sequence)1 648 1 2275 1680 t
+(Example:)1580 1920 w
+10 S1 f
+(" \\)1 85 1 1780 2040 t
+10 R f
+(documentstyle)1881 2040 w
+10 S f
+({)2464 2040 w
+10 R f
+(article)2512 2040 w
+10 S f
+(})2761 2040 w
+10 S1 f
+(\\)1796 2160 w
+10 R f
+(input cyracc)1 498 1 1840 2160 t
+10 S1 f
+(\\)1796 2280 w
+10 R f
+(begin)1840 2280 w
+10 S f
+({)2062 2280 w
+10 R f
+(document)2110 2280 w
+10 S f
+(})2504 2280 w
+10 S1 f
+(")1780 2400 w
+10 R f
+(is right \(note a new line at the end\), but)9 1642 1 1580 2520 t
+10 S1 f
+(" \\)1 85 1 1780 2640 t
+10 R f
+(documentstyle)1881 2640 w
+10 S f
+({)2464 2640 w
+10 R f
+(article)2512 2640 w
+10 S f
+(})2761 2640 w
+10 S1 f
+(\\)1796 2760 w
+10 R f
+(input cyracc)1 498 1 1840 2760 t
+10 S1 f
+(#)2569 2760 w
+10 R f
+(this comment will be included!)4 1276 1 2652 2760 t
+10 S1 f
+(\\)1796 2880 w
+10 R f
+(begin)1840 2880 w
+10 S f
+({)2062 2880 w
+10 R f
+(document)2110 2880 w
+10 S f
+(})2504 2880 w
+10 S1 f
+(" #)1 190 1 2552 2880 t
+10 R f
+(while this will not)3 750 1 2775 2880 t
+(is wrong.)1 380 1 1580 3000 t
+(Ad.4\) Ending sequence. Similar to 1\), but will be appended at the end of the output \256le.)16 3630 1 1080 3240 t
+(For example:)1 538 1 1580 3360 t
+10 S1 f
+(" \\)1 85 1 1780 3480 t
+10 R f
+(end)1881 3480 w
+10 S f
+({)2025 3480 w
+10 R f
+(document)2073 3480 w
+10 S f
+(})2467 3480 w
+10 S1 f
+(")1780 3600 w
+10 R f
+( of KOI7, there are two charac-)6 1325(Ad.5\) Number of input character sets. For example, in some incarnation)10 2995 2 1080 3840 t
+( \(CTRL-N\),)1 486(ter sets: Latin and Cyrillic. Cyrillic character sequence follows SHIFT-OUT character)10 3534 2 1380 3960 t
+10 S1 f
+(\\)1396 4080 w
+10 R f
+( SHIFT-IN character \(CTRL-O\),)3 1352(0x0e, and is terminated by)4 1113 2 1440 4080 t
+10 S1 f
+(\\)3961 4080 w
+10 R f
+( way of looking at)4 787(0x0f. Another)1 608 2 4005 4080 t
+( ones follow CTRL-N.)3 929( cyrillic)1 349(it is that Latin characters follow CTRL-O and)7 1884 3 1380 4200 t
+( input char sets,)3 675(If there is only one character set on input you should specify 0 as a number of)16 3345 2 1380 4440 t
+(since the input \256le obviously does not contain any SHIFT-OUT/IN sequences.)10 3213 1 1380 4560 t
+( lines appear only if you)5 1078( These)1 318( each input character set.)4 1076(Ad.6\) SHIFT-OUT/SHIFT-IN sequences for)3 1848 4 1080 4800 t
+(speci\256ed nonzero number of character sets. These lines contain also)9 2854 1 1380 4920 t
+10 S1 f
+(")4275 4920 w
+10 R f
+(nesting sequences)1 734 1 4316 4920 t
+10 S1 f
+(")5050 4920 w
+10 R f
+(, which)1 309 1 5091 4920 t
+( do not use)3 466( You)1 240(will be explained later in this section.)6 1556 3 1380 5040 t
+10 S1 f
+(")3677 5040 w
+10 R f
+(nesting sequences)1 729 1 3718 5040 t
+10 S1 f
+(")4447 5040 w
+10 R f
+(frequently, and let us)3 876 1 4524 5040 t
+( regular expressions)2 844( strings or)2 448( The)1 237(assume for a moment that nesting data are empty strings.)9 2491 4 1380 5160 t
+( matching)1 421(speci\256ed here are matched with the contents of input text. If match was found, the)14 3599 2 1380 5280 t
+(sequence is usually deleted from the input text and:)8 2117 1 1380 5400 t
+( to the new)3 489(a\) for SHIFT-OUT sequence: the current input character set number is changed)11 3331 2 1580 5520 t
+(one corresponding to the SHIFT-OUT sequence, or)6 2102 1 1780 5640 t
+( the previous input character set number is restored, \(i.e., the one)11 2707(b\) for SHIFT-IN sequence:)3 1113 2 1580 5760 t
+( that only the)3 612( Note)1 281(which preceded the SHIFT-OUT sequence for the current set\).)8 2727 3 1780 5880 t
+( SHIFT-IN sequences for other)4 1293( The)1 226(SHIFT-IN sequence for the current set is matched.)7 2101 3 1780 6000 t
+( bracketing of sets is assumed)5 1260( The)1 227(character sets than the current set are not matched.)8 2133 3 1780 6120 t
+( set)1 153(perfect. If the SHIFT-IN sequence for the current set is an empty string, the input)14 3467 2 1780 6240 t
+(number is changed when SHIFT-OUT sequence of the new set is detected.)11 3070 1 1780 6360 t
+( set, you have to specify a line consisting of 6 strings/expressions)11 2961(For each input character)3 1059 2 1380 6480 t
+(separated by spaces:)2 830 1 1380 6600 t
+(SO-match SO-subs NEST-up NEST-down SI-match SI-subs)5 2463 1 1446 6720 t
+(where:)1380 6840 w
+( the string or regular expression for the SHIFT-OUT sequence for the current char-)13 3479(SO-match ---)1 541 2 1380 6960 t
+(acter set. If detected, the input character set is changed to this set.)12 2709 1 1580 7080 t
+( string \(i.e., the input sequence matching SO-match is)8 2401(SO-subs --- this is usually an empty)6 1619 2 1380 7200 t
+( 9)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7680 t
+cleartomark
+showpage
+restore
+%%EndPage: 9 9
+%%Page: 10 10
+save
+mark
+10 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+( be a replacement string or a substitution expression, which will substi-)11 2963(removed\). But it can)3 857 2 1580 960 t
+(tute the original matching SHIFT-OUT sequence.)5 2026 1 1580 1080 t
+( an empty string\). However, it can be)7 1574(NEST-up --- this string \(or a regular expression\) is usually)9 2446 2 1380 1200 t
+( SHIFT-IN bracket, if SHIFT-IN sequence is not)7 2128(used to count brackets for detection of)6 1692 2 1580 1320 t
+(unique. Its use is explained below.)5 1419 1 1580 1440 t
+(NEST-down --- a counterpart of NEST-up. It is explained later.)9 2608 1 1380 1560 t
+( input \256le matches the string or regular expression given as)10 2518(SI-match --- when a sequence in an)6 1502 2 1380 1680 t
+( number is restored to the)5 1093(SI-match for a current input character set, the input character set)10 2727 2 1580 1800 t
+(previous set. Note, that only SI-match for a current set is matched with input characters.)14 3625 1 1580 1920 t
+( is usually an empty string \(i.e., input sequence which matched SI-match is)12 3366(SI-subs --- this)2 654 2 1380 2040 t
+( if it is not, the input characters which matched the SI-match are replaced with)14 3250(removed\), but)1 570 2 1580 2160 t
+(the SI-subs.)1 480 1 1580 2280 t
+(The KOI7 case described above may be speci\256ed as:)8 2169 1 1380 2520 t
+(2)1880 2640 w
+10 S1 f
+(#)2623 2640 w
+10 R f
+(2 input sets)2 472 1 2706 2640 t
+10 S1 f
+("" "" "" "" "" "" #)6 2138 1 1880 2760 t
+10 R f
+(Latin\(set 1\))1 471 1 4051 2760 t
+10 S1 f
+(" \\)1 85 1 1880 2880 t
+10 R f
+(016)1981 2880 w
+10 S1 f
+( \\)1 44( "" "" ")3 1003(" "")1 189 3 2131 2880 t
+10 R f
+(017)3383 2880 w
+10 S1 f
+( #)1 316(" "")1 189 2 3533 2880 t
+10 R f
+(Cyrillic\(set 2\))1 566 1 4071 2880 t
+(or)2177 3000 w
+(2)1880 3120 w
+10 S1 f
+(#)2623 3120 w
+10 R f
+(2 sets)1 233 1 2706 3120 t
+10 S1 f
+(" \\)1 85 1 1880 3240 t
+10 R f
+(017)1981 3240 w
+10 S1 f
+( "" "" "" "" #)5 1708(" "")1 189 2 2131 3240 t
+10 R f
+(Latin\(set 1\))1 471 1 4061 3240 t
+10 S1 f
+(" \\)1 85 1 1880 3360 t
+10 R f
+(016)1981 3360 w
+10 S1 f
+( "" "" "" "" #)5 1708(" "")1 189 2 2131 3360 t
+10 R f
+(Cyrillic\(set 2\))1 566 1 4061 3360 t
+( In the)2 277(Before the input is processed, the program is initialized to the character set of the \256rst set.)16 3743 2 1380 3480 t
+(above case, it is important, since declaration:)6 1845 1 1380 3600 t
+(2)1880 3720 w
+10 S1 f
+(#)2623 3720 w
+10 R f
+(2 sets)1 233 1 2706 3720 t
+10 S1 f
+(" \\)1 85 1 1880 3840 t
+10 R f
+(016)1981 3840 w
+10 S1 f
+( "" "" "" "" #)5 1708(" "")1 189 2 2131 3840 t
+10 R f
+(Cyrillic\(set 1\))1 566 1 4061 3840 t
+10 S1 f
+(" \\)1 85 1 1880 3960 t
+10 R f
+(017)1981 3960 w
+10 S1 f
+( "" "" "" "" #)5 1708(" "")1 189 2 2131 3960 t
+10 R f
+(Latin\(set 2\))1 471 1 4061 3960 t
+(would be wrong and would mess up the Latin characters preceding \256rst Cyrillic sequence.)13 3703 1 1380 4080 t
+( translitera-)1 472(The nesting sequences are used only for speci\256c situations. I needed them to write a)14 3548 2 1380 4320 t
+( LaTeX the)2 490( In)1 159( from LaTeX to KOI8.)4 978(tion table)1 394 4 1380 4440 t
+10 S f
+({ })1 139 1 3444 4440 t
+10 R f
+(pair is used for grouping and appears fre-)7 1774 1 3626 4440 t
+( SHIFT-)1 353( The)1 230( of cyrillic characters is also a group in LaTeX.)9 2037(quently in the text. The sequence)5 1400 4 1380 4560 t
+(OUT sequence for Russian letters in LaTeX is \(at least in my case\):)12 2820 1 1380 4680 t
+10 S1 f
+(")4235 4680 w
+10 S f
+({)4276 4680 w
+10 S1 f
+(\\)4340 4680 w
+10 R f
+(cyr)4384 4680 w
+10 S1 f
+(")4546 4680 w
+10 R f
+( of the)2 273(, and the end)3 540 2 4587 4680 t
+(Russian letters is marked by)4 1183 1 1380 4800 t
+10 S1 f
+(")2602 4800 w
+10 S f
+(})2643 4800 w
+10 S1 f
+(")2691 4800 w
+10 R f
+( the)1 162(, but)1 192 2 2732 4800 t
+10 S1 f
+(")3126 4800 w
+10 S f
+(})3167 4800 w
+10 S1 f
+(")3215 4800 w
+10 R f
+(has to be the bracket matching the opening)7 1816 1 3296 4800 t
+10 S1 f
+(")5152 4800 w
+10 S f
+({)5193 4800 w
+10 S1 f
+(")5241 4800 w
+10 R f
+(in)5322 4800 w
+10 S1 f
+(")1380 4920 w
+10 S f
+({)1421 4920 w
+10 S1 f
+(\\)1485 4920 w
+10 R f
+(cyr)1529 4920 w
+10 S1 f
+(")1689 4920 w
+10 R f
+( this reason, my SHIFT-OUT/IN entry was in this case:)9 2286( For)1 205( just any bracket.)3 706(, not)1 219 4 1730 4920 t
+10 S1 f
+(")1880 5040 w
+10 S f
+({)1921 5040 w
+10 S1 f
+(\\)1985 5040 w
+10 R f
+(cyr)2029 5040 w
+10 S1 f
+(" "" ")2 296 1 2189 5040 t
+10 S f
+({)2485 5040 w
+10 S1 f
+(" ")1 148 1 2533 5040 t
+10 S f
+(})2681 5040 w
+10 S1 f
+(" ")1 148 1 2729 5040 t
+10 S f
+(})2877 5040 w
+10 S1 f
+( #)1 149(" "")1 189 2 2925 5040 t
+10 R f
+(Cyrillic codes)1 566 1 3296 5040 t
+(Whenever the)1 583 1 1380 5160 t
+10 S1 f
+(")2015 5160 w
+10 S f
+({)2056 5160 w
+10 S1 f
+(\\)2120 5160 w
+10 R f
+(cyr)2164 5160 w
+10 S1 f
+(")2343 5160 w
+10 R f
+( adds +1 to it, when)5 929( It)1 147( zeroes the counter.)3 859(was found, the program)3 1029 4 2436 5160 t
+(NEST-up sequence \(i.e., the)3 1179 1 1380 5280 t
+10 S1 f
+(")2602 5280 w
+10 S f
+({)2643 5280 w
+10 S1 f
+(")2691 5280 w
+10 R f
+( NEST-down)1 547(here\) is found, and subtracts 1 from it, when the)9 2078 2 2775 5280 t
+(sequence is found \(i.e., the)4 1111 1 1380 5400 t
+10 S1 f
+(")2527 5400 w
+10 S f
+(})2568 5400 w
+10 S1 f
+(")2616 5400 w
+10 R f
+( checking for a SHIFT-IN sequence \(i.e., the)7 1855(\). The)1 282 2 2657 5400 t
+10 S1 f
+(")4831 5400 w
+10 S f
+(})4872 5400 w
+10 S1 f
+(")4920 5400 w
+10 R f
+(\) for cyril-)2 439 1 4961 5400 t
+( is zero \(i.e., all pairs inside the cyrillic text are)10 2117(lic set is done only when the counter value)8 1903 2 1380 5520 t
+( is more complicated than that \(the counter for an opened character)11 2827(matched. In fact, the process)4 1193 2 1380 5640 t
+(set is placed on the stack\), but these are details you can \256nd in the code itself.)16 3223 1 1380 5760 t
+( from version)2 572( Starting)1 392( is the same character?)4 970(What if the SHIFT-IN and SHIFT-OUT sequence)6 2086 4 1380 5880 t
+( us assume that the SHIFT-IN and)6 1551( Let)1 222( TRANSLIT will also work in such cases.)7 1893(1.01 the)1 354 4 1380 6000 t
+(SHIFT-OUT sequence is a single character)5 1760 1 1380 6120 t
+10 S1 f
+(")3174 6120 w
+10 R f
+(%)3215 6120 w
+10 S1 f
+(")3298 6120 w
+10 R f
+(which switches between two character sets. Also,)6 2027 1 3373 6120 t
+( the text, we have to double it, i.e.,)8 1499(if we want to use it in)6 962 2 1380 6240 t
+10 S1 f
+(")3881 6240 w
+10 R f
+(%%)3922 6240 w
+10 S1 f
+(")4088 6240 w
+10 R f
+(will not be a SHIFT-IN/OUT)4 1231 1 4169 6240 t
+(sequence but will denote a literal percent sign. We can do it in the following way:)15 3387 1 1380 6360 t
+10 S1 f
+( "" #)2 594( "" "")2 296( "")1 214("" "")1 395 4 1880 6480 t
+10 R f
+(Latin letters)1 488 1 3412 6480 t
+10 S f
+({)1880 6600 w
+10 R f
+(%\([)1928 6600 w
+10 S1 f
+(\303)2077 6600 w
+10 R f
+(%]\))2110 6600 w
+10 S f
+(} {)1 162 1 2259 6600 t
+10 S1 f
+(\\)2453 6600 w
+10 R f
+(1)2513 6600 w
+10 S f
+(})2563 6600 w
+10 S1 f
+("" "")1 230 1 2677 6600 t
+10 S f
+({)2973 6600 w
+10 R f
+(%\([)3021 6600 w
+10 S1 f
+(\303)3170 6600 w
+10 R f
+(%]\))3203 6600 w
+10 S f
+(} {)1 129 1 3352 6600 t
+10 S1 f
+(\\)3513 6600 w
+10 R f
+(1)3573 6600 w
+10 S f
+(})3623 6600 w
+10 S1 f
+(#)3737 6600 w
+10 R f
+(Cyrillic codes)1 566 1 3820 6600 t
+(and later in the transliteration table \(see below\) we should put a line:)12 2836 1 1380 6720 t
+(0)1880 6840 w
+10 S1 f
+(")2062 6840 w
+10 R f
+(%%)2103 6840 w
+10 S1 f
+(")2269 6840 w
+10 R f
+(0)2508 6840 w
+10 S1 f
+(")2690 6840 w
+10 R f
+(%)2731 6840 w
+10 S1 f
+(" #)1 322 1 2814 6840 t
+10 R f
+(change doubled % to a single one)6 1390 1 3169 6840 t
+( effect, for identical SHIFT-IN/OUT sequences, can be accomplished with a -3 charac-)12 3623(The same)1 397 2 1380 6960 t
+(ter set code and will be described below.)7 1680 1 1380 7080 t
+( 10)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7680 t
+cleartomark
+showpage
+restore
+%%EndPage: 10 10
+%%Page: 11 11
+save
+mark
+11 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+(Ad.7\) Number of output)3 1031 1 1080 960 t
+10 S1 f
+(")2156 960 w
+10 R f
+(character sets)1 559 1 2197 960 t
+10 S1 f
+(")2756 960 w
+10 R f
+( to)1 124( characters sent)2 654( The)1 233(. This is analogous to the input case.)7 1592 4 2797 960 t
+( belong to different sets. For example, when the character \(or the sequence\) from set 2)15 3558(output may)1 462 2 1380 1080 t
+( \(or the sequence\) from set 1, the program \256rst sends the SHIFT-IN)12 2860(is followed by the character)4 1160 2 1380 1200 t
+( then the SHIFT-OUT sequence for set 1 \(if it is not)11 2237(sequence for set 2 \(if it is not empty\) and)9 1783 2 1380 1320 t
+( assigned to set 0, then no SHIFT-IN/SHIFT-OUT)7 2085(empty\). If the output character \(or sequence\) is)7 1935 2 1380 1440 t
+(sequences are sent to output.)4 1177 1 1380 1560 t
+( that you may have)4 856( Note)1 276(If there is only one set of output characters, you should specify 0.)12 2888 3 1380 1680 t
+( and)1 177(several input sets and several output sets, though this is rare. Usually, you have one input set)16 3843 2 1380 1800 t
+( Again, if you have only one output set, you do not)11 2255(many output character sets, or vice versa.)6 1765 2 1380 1920 t
+( to output only when a set)6 1201(have any SHIFT-IN/SHIFT-OUT sequences, since those are send)7 2819 2 1380 2040 t
+( you are free to experiment.)5 1142( But)1 211(number is changed.)2 795 3 1380 2160 t
+( is similar to the input case,)6 1235(Ad.8\) SHIFT-OUT/SHIFT-IN sequences for each output character set. It)8 3085 2 1080 2400 t
+( before any text is sent)5 961(however, the NEST-in and NEST-up sequences are not used here. Again,)10 3059 2 1380 2520 t
+( SHIFT-OUT/IN sequences are)3 1282(to output, the character set speci\256ed as the \256rst one is assumed. If)12 2738 2 1380 2640 t
+( any SHIFT-)2 587(not used \(i.e., you have only one output character set\), you will not have)13 3433 2 1380 2760 t
+( KOI8 \(single character set containing all Latin and Russian)9 2645( The)1 241( lines.)1 267(OUT/SHIFT-IN data)1 867 4 1380 2880 t
+( sequences\) conver-)2 807(letters\) to KOI7 \(the set using overlapping codes switched by SHIFT-OUT/IN)10 3213 2 1380 3000 t
+(sion could be therefore accomplished by the following table:)8 2488 1 1380 3120 t
+(2)1880 3240 w
+10 S1 f
+(#)2880 3240 w
+10 R f
+(2 output sets)2 522 1 2963 3240 t
+10 S1 f
+("" "" #)2 1050 1 1880 3360 t
+10 R f
+(Latin Letters)1 521 1 2963 3360 t
+10 S1 f
+(" \\)1 85 1 1880 3480 t
+10 R f
+(016)1981 3480 w
+10 S1 f
+( \\)1 44(" ")1 290 2 2131 3480 t
+10 R f
+(017)2481 3480 w
+10 S1 f
+(" #)1 299 1 2631 3480 t
+10 R f
+(Russian Letters case)2 831 1 2963 3480 t
+( a core of your transliteration)5 1216( is)1 102( It)1 129(Ad.9\) Transliteration table for individual character or their sequences.)8 2873 4 1080 3720 t
+( are 4 columns in the transliteration table:)7 1718(data. There)1 489 2 1380 3840 t
+(\(inp)1680 3960 w
+10 S f
+(_)1841 3960 w
+10 R f
+(set)1891 3960 w
+10 S f
+(_)2002 3960 w
+10 R f
+(no\) \(inp)1 327 1 2052 3960 t
+10 S f
+(_)2379 3960 w
+10 R f
+(seq\) \(out)1 360 1 2429 3960 t
+10 S f
+(_)2789 3960 w
+10 R f
+(set)2839 3960 w
+10 S f
+(_)2950 3960 w
+10 R f
+(no\) \(out)1 327 1 3000 3960 t
+10 S f
+(_)3327 3960 w
+10 R f
+(seq\))3377 3960 w
+( spaces. The \(input)3 790(These 4 columns are separated by)5 1404 2 1380 4080 t
+10 S f
+(_)3574 4080 w
+10 R f
+(set)3624 4080 w
+10 S f
+(_)3735 4080 w
+10 R f
+(number\) corresponds to the input char-)5 1615 1 3785 4080 t
+( zero is)2 330( If)1 145( as speci\256ed above for input SHIFT-OUT/SHIFT-IN data, or zero.)9 2842(acter set number)2 703 4 1380 4200 t
+( number of input sets is not zero\), the \(input)9 1943(used \(even if)2 555 2 1380 4320 t
+10 S f
+(_)3878 4320 w
+10 R f
+(sequence\) will be always matched,)4 1472 1 3928 4320 t
+( is)1 112(irrespectively of the current input character set imposed by the SHIFT-OUT sequence. This)12 3908 2 1380 4440 t
+( universal \(e.g., new lines, spaces, pluses, minuses, etc.\))8 2555(useful, since some characters are)4 1465 2 1380 4560 t
+( \(input)1 277( The)1 226( character set.)2 576(irrespectively of the current)3 1147 4 1380 4680 t
+10 S f
+(_)3606 4680 w
+10 R f
+(sequence\) is the sequence of characters to)6 1744 1 3656 4680 t
+( is)1 104(be matched with characters in the input \256le, and if found \(within the character set speci\256ed\) it)16 3916 2 1380 4800 t
+(replaced by the \(output)3 1025 1 1380 4920 t
+10 S f
+(_)2405 4920 w
+10 R f
+( to output \(i.e., the matching is interrupted, the)8 2124(sequence\) and sent)2 821 2 2455 4920 t
+(\(output)1380 5040 w
+10 S f
+(_)1669 5040 w
+10 R f
+( to ouput, the input \256le pointer is moved to the \256rst character after the)14 3077(sequence\) sent)1 604 2 1719 5040 t
+( \(output)1 327( The)1 226(matched sequence and matching resumes\).)4 1756 3 1380 5160 t
+10 S f
+(_)3689 5160 w
+10 R f
+(set)3739 5160 w
+10 S f
+(_)3850 5160 w
+10 R f
+(number\) speci\256es the output charac-)4 1500 1 3900 5160 t
+( changes during transliteration, the appropriate SHIFT-IN)6 2424(ter set. When the output character set)6 1596 2 1380 5280 t
+( sent to output. The)4 843(sequence of the previous set and the current set's SHIFT-OUT sequence is)11 3177 2 1380 5400 t
+(\(output)1380 5520 w
+10 S f
+(_)1669 5520 w
+10 R f
+(set)1719 5520 w
+10 S f
+(_)1830 5520 w
+10 R f
+( zero\). In this case,)4 821(number\) may also be zero \(even if number of output sets is not)12 2699 2 1880 5520 t
+(the current output set status is not changed, and no SHIFT-IN/OUT sequences is sent to output.)15 4020 1 1380 5640 t
+( the substitution is performed within)5 1508( this case,)2 411( In)1 151(Lastly, the output set code may be -1, -2 or -3.)10 1950 4 1380 5760 t
+( yet. Depending on the)4 947(input string that matched but the output sequence is not sent to the output)13 3073 2 1380 5880 t
+(code, the following action is performed:)5 1643 1 1380 6000 t
+( string)1 262( program makes the substitution in the input string \(i.e., substitutes the matching)12 3310(-1 ---)1 248 3 1580 6120 t
+( does not send the output sequence to the)8 1757( It)1 135(with the input string in the input buffer\).)7 1728 3 1780 6240 t
+( sequences following the currently matched one.)6 1980( input)1 272(output, but continues matching)3 1263 3 1780 6360 t
+( like code -1, but matching is resumed from the \256rst sequence on the list.)14 3020(-2 ---)1 248 2 1580 6480 t
+( like code -1, but matching is resumed from the input SHIFT-OUT/IN sequences.)12 3347(-3 ---)1 248 2 1580 6600 t
+(E.g., if the unprocessed text in the input \256le is:)9 1938 1 1380 6720 t
+(mental procedure was not successful since..........)5 1983 1 1880 6840 t
+(and there was a line in transliteration table:)7 1778 1 1380 6960 t
+(0)1880 7080 w
+10 S1 f
+(")1996 7080 w
+10 R f
+(me)2037 7080 w
+10 S1 f
+(")2159 7080 w
+10 R f
+(-1)2299 7080 w
+10 S1 f
+(")2448 7080 w
+10 R f
+(you)2489 7080 w
+10 S1 f
+(")2639 7080 w
+10 R f
+(the input text would be changed to:)6 1458 1 1380 7200 t
+( 11)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7680 t
+cleartomark
+showpage
+restore
+%%EndPage: 11 11
+%%Page: 12 12
+save
+mark
+12 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+(yountal procedure was not successful since..........)5 2011 1 1880 960 t
+( -2)1 123( The)1 228( would be applied to this text, rather than original text.)10 2326(and all remaining matching data)4 1343 4 1380 1080 t
+( -3 code backsteps)3 782( The)1 229( matching of transliteration starts.)4 1410(code backsteps to the point where the)6 1599 4 1380 1200 t
+( point where the input SHIFT-OUT and SHIFT-IN sequences are matched.)10 3201(even further, to the)3 819 2 1380 1320 t
+( is crucial here, for the case of output set code -1/-2/-3)11 2381(Since the order of sequences to match)6 1639 2 1380 1440 t
+( HERE.)1 331( CAREFUL)1 500( BE)1 205(even one-character input sequences are matched in the order speci\256ed.)9 2984 4 1380 1560 t
+( -2/-3, be sure that the resulting sequence after)8 2008(You may create in\256nite loops. If you use code)8 2012 2 1380 1680 t
+(substitution with the code -2/-3, will not match previous sequences with codes -2/-3.)12 3471 1 1380 1800 t
+(The \(output)1 492 1 1380 1920 t
+10 S f
+(_)1872 1920 w
+10 R f
+(sequence\) is a sequence which substitutes the corresponding \(input)8 2857 1 1922 1920 t
+10 S f
+(_)4779 1920 w
+10 R f
+(sequence\). If)1 571 1 4829 1920 t
+(\(output)1380 2040 w
+10 S f
+(_)1669 2040 w
+10 R f
+(sequence\) is)1 519 1 1719 2040 t
+10 S1 f
+("")2292 2040 w
+10 R f
+(\(i.e., empty string\) then \(input)4 1318 1 2428 2040 t
+10 S f
+(_)3746 2040 w
+10 R f
+( The)1 241(sequence\) is effectively deleted.)3 1363 2 3796 2040 t
+(\(input)1380 2160 w
+10 S f
+(_)1619 2160 w
+10 R f
+( unless backstepping -2/-3 code)4 1319(sequence\)s are compared with input in the order speci\256ed)8 2412 2 1669 2160 t
+( -1 e.g., to dehyphen-)4 891(is used \(the matching is done from the \256rst sequence again\). I use the code)14 3129 2 1380 2280 t
+( -2 is useful if you want to skip next comparisons,)10 2186( Code)1 288( when changing to LaTeX.)4 1143(ate words)1 403 4 1380 2400 t
+( do not see many)4 733( I)1 105( substitution string will match earlier matching expressions.)7 2486(and the resulting)2 696 4 1380 2520 t
+( it can be used to resolve)6 1197(uses for the code -3, but)5 1129 2 1380 2640 t
+10 S1 f
+(")3766 2640 w
+10 R f
+(toggle)3807 2640 w
+10 S1 f
+(")4057 2640 w
+10 R f
+(SHIFT-IN/OUT sequence, as)2 1242 1 4158 2640 t
+( multicharacter sequences is therefore)4 1626( order for)2 438( The)1 244(described in an example further below.)5 1712 4 1380 2760 t
+( always compared after all multicharacter sequences,)6 2173(important \(the single character sequences are)5 1847 2 1380 2880 t
+( should be speci\256ed)3 857( longer multicharacter sequences)3 1379( The)1 236(and can be therefore put anywhere\).)5 1548 4 1380 3000 t
+(before shorter ones, unless they are some)6 1763 1 1380 3120 t
+10 S1 f
+(")3188 3120 w
+10 R f
+(preprocessing)3229 3120 w
+10 S1 f
+(")3783 3120 w
+10 R f
+(steps with codes -1/-2/-3. The order)5 1530 1 3870 3120 t
+( speci\256c order,)2 622( you need single character sequences matched in a)8 2141( If)1 141(may sometimes be crucial.)3 1116 4 1380 3240 t
+(enter them as regular expressions, i.e., as)6 1737 1 1380 3360 t
+10 S f
+({)3159 3360 w
+10 R f
+(c)3207 3360 w
+10 S f
+(})3251 3360 w
+10 R f
+(instead of)1 408 1 3341 3360 t
+10 S1 f
+(")3791 3360 w
+10 R f
+(c)3832 3360 w
+10 S1 f
+(")3876 3360 w
+10 R f
+( the multicharacter input)3 1033( short,)1 267(. In)1 183 3 3917 3360 t
+( are matched to input text in the order speci\256ed. For the sake)12 2601(sequences and regular expressions)3 1419 2 1380 3480 t
+( code -1/-2/-3\) and)3 772(of ef\256ciency, the single character input sequences \(with exception of output set)11 3248 2 1380 3600 t
+( of remapping and are matched in the order of character codes)11 2659(input lists are handled as a case)6 1361 2 1380 3720 t
+( input set,)2 418( you specify the same single input character twice for a given)11 2579( If)1 136(associated with them.)2 887 4 1380 3840 t
+( combinations of input and output sequences are)7 2145( following)1 446( The)1 245(the program will complain.)3 1184 4 1380 3960 t
+(allowed:)1380 4080 w
+( Sequence)1 415( Output)1 1852(Input Sequence)1 626 3 1580 4200 t
+10 S1 f
+(")1580 4320 w
+10 I f
+(plain string)1 473 1 1621 4320 t
+10 S1 f
+(")2094 4320 w
+10 R f
+(only)3780 4320 w
+10 S1 f
+(")3991 4320 w
+10 I f
+(plain string)1 473 1 4032 4320 t
+10 S1 f
+(")4505 4320 w
+10 R f
+([)1580 4440 w
+10 I f
+(list)1613 4440 w
+10 R f
+(] [)1 2077 1 1736 4440 t
+10 I f
+(list)3813 4440 w
+10 R f
+(] or)1 149 1 3936 4440 t
+10 S1 f
+(")4118 4440 w
+10 I f
+(plain string)1 473 1 4159 4440 t
+10 S1 f
+(")4632 4440 w
+10 S f
+({)1580 4560 w
+10 I f
+(regular expression)1 760 1 1628 4560 t
+10 S f
+(} {)1 1440 1 2388 4560 t
+10 I f
+(substitution expression)1 928 1 3828 4560 t
+10 S f
+(})4756 4560 w
+10 R f
+(or)4837 4560 w
+10 S1 f
+(")3813 4680 w
+10 I f
+(plain string)1 473 1 3854 4680 t
+10 S1 f
+(")4327 4680 w
+10 R f
+(When match is found, the matching sequence is removed and substituted with an output)13 4020 1 1380 4800 t
+( results is changing the current output character set, the appropriate SHIFT-)11 3313(sequence. If this)2 707 2 1380 4920 t
+( output before the transliterated output sequence. If list is used)10 2608(IN/SHIFT-OUT pair is sent to the)5 1412 2 1380 5040 t
+(as the input sequence, you may either use:)7 1742 1 1380 5160 t
+( character belongs to the input list,)6 1439(a\) plain string as output sequence. In this case, if current input)11 2581 2 1380 5280 t
+( replaced by the output string. I use it to delete ranges of characters which do not have)17 3658(it is)1 162 2 1580 5400 t
+( graphics characters\). In this case,)5 1418(any corresponding characters in the output set \(e.g., some)8 2402 2 1580 5520 t
+(the order of characters on the input list is not important.)10 2308 1 1580 5640 t
+( also a list then it has to contain exactly the same number of characters)14 3013(b\) if the output string is)5 1007 2 1380 5760 t
+( by the 1st char-)4 675(as the input list. In this case, the 1st character from the input list is replaced)15 3145 2 1580 5880 t
+( the 2nd one by the 2nd one, etc. Therefore, the order of characters)13 2775(acter from the output list,)4 1045 2 1580 6000 t
+(is important.)1 514 1 1580 6120 t
+( is one-to-one correspondence between characters in the input set and char-)11 3131(Theoretically, if there)2 889 2 1380 6240 t
+( single line consisting of two)5 1243(acters in the output set, you can make the conversion by using a)12 2777 2 1380 6360 t
+( for the program, the substitution takes the)7 1770( And)1 241( ugly... And is dif\256cult to read.)6 1299(lists. But it looks)3 710 4 1380 6480 t
+( or when they are speci\256ed as matching lists.)8 1869(same time, if the characters are speci\256ed separately,)7 2151 2 1380 6600 t
+( the input characters, the matching sequence may be)8 2337(If regular expression is used to match)6 1683 2 1380 6720 t
+(replaced by a plain string or a substitution string, which was described above.)12 3197 1 1380 6840 t
+(Examples:)1680 6960 w
+(2)1980 7080 w
+10 S1 f
+(")2680 7080 w
+10 R f
+(CCCP)2721 7080 w
+10 S1 f
+(")2978 7080 w
+10 R f
+(0)3680 7080 w
+10 S1 f
+("")4680 7080 w
+10 R f
+( for input)2 396(will delete all occurrences of CCCP from the input \256le \(but not Cccp or CCCp\))14 3324 2 1680 7200 t
+( 12)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7680 t
+cleartomark
+showpage
+restore
+%%EndPage: 12 12
+%%Page: 13 13
+save
+mark
+13 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+(set 2.)1 219 1 1680 960 t
+(0)1980 1200 w
+10 S1 f
+(" \\)1 85 1 2680 1200 t
+10 R f
+(0xD1)2781 1200 w
+10 S1 f
+(")3003 1200 w
+10 R f
+(0)3680 1200 w
+10 S1 f
+(")4680 1200 w
+10 R f
+(ya)4721 1200 w
+10 S1 f
+(")4815 1200 w
+10 R f
+( the code)2 402(will replace all occurrences of character of)6 1818 2 1680 1320 t
+10 S1 f
+(\\)3962 1320 w
+10 R f
+(0xD1 with a two letter sequence)5 1394 1 4006 1320 t
+10 S1 f
+(")1680 1440 w
+10 R f
+(ya)1721 1440 w
+10 S1 f
+(")1815 1440 w
+10 R f
+(.)1856 1440 w
+(0)1980 1680 w
+10 S1 f
+(\\)2696 1680 w
+10 R f
+( q)1 1000(0xD1 2)1 990 2 2740 1680 t
+( all characters)2 635(will replace)1 508 2 1680 1800 t
+10 S1 f
+(\\)2905 1800 w
+10 R f
+(0xD1 with a character)3 1006 1 2949 1800 t
+10 S1 f
+(")4021 1800 w
+10 R f
+(q)4062 1800 w
+10 S1 f
+(")4112 1800 w
+10 R f
+(and output SHIFT-IN/OUT)2 1181 1 4219 1800 t
+(sequence if necessary.)2 904 1 1680 1920 t
+(2)1980 2160 w
+10 S1 f
+(")2680 2160 w
+10 R f
+(q)2721 2160 w
+10 S1 f
+(")2771 2160 w
+10 R f
+(0)3680 2160 w
+10 S1 f
+(" \\)1 85 1 4680 2160 t
+10 R f
+(0xD1)4781 2160 w
+10 S1 f
+(")5003 2160 w
+10 R f
+(will replace letter q \(if the current input set is 2\) with a code)13 2502 1 1680 2280 t
+10 S1 f
+(\\)4231 2280 w
+10 R f
+(0xD1.)4275 2280 w
+(0)1980 2520 w
+10 S1 f
+(" \\)1 85 1 2680 2520 t
+10 R f
+(0xD1)2781 2520 w
+10 S1 f
+(")3003 2520 w
+10 R f
+(2)3680 2520 w
+10 S1 f
+(")4680 2520 w
+10 R f
+(ya)4721 2520 w
+10 S1 f
+(")4815 2520 w
+10 R f
+(will replace code)2 711 1 1680 2640 t
+10 S1 f
+(\\)2447 2640 w
+10 R f
+(0xD1 with a sequence ya \(assuming that SHIFT-OUT and SHIFT-IN)9 2909 1 2491 2640 t
+(sequences for output set 2 are:)5 1251 1 1680 2760 t
+10 S f
+({)2964 2760 w
+10 S1 f
+(\\)3028 2760 w
+10 R f
+(cyr and)1 304 1 3072 2760 t
+10 S f
+(})3409 2760 w
+10 R f
+(, respectively, you will get)4 1092 1 3457 2760 t
+10 S f
+({)4582 2760 w
+10 S1 f
+(\\)4646 2760 w
+10 R f
+(cyr ya)1 254 1 4690 2760 t
+10 S f
+(})4944 2760 w
+10 R f
+(\).)4992 2760 w
+(If a character is not speci\256ed in the transliteration table, it will be output as is, i.e., it)17 3720 1 1680 3000 t
+(corresponds to a line:)3 881 1 1680 3120 t
+(0)1980 3240 w
+10 S1 f
+(")2680 3240 w
+10 R f
+(c)2721 3240 w
+10 S1 f
+(")2765 3240 w
+10 R f
+(0)3680 3240 w
+10 S1 f
+(")4680 3240 w
+10 R f
+(c)4721 3240 w
+10 S1 f
+(")4765 3240 w
+10 R f
+( certain characters, you need to explicitly)6 1751(where c is the character. If you want to delete)9 1969 2 1680 3360 t
+(specify this, e.g.:)2 696 1 1680 3480 t
+( 0)1 863(0 [a-z])1 887 2 1980 3600 t
+10 S1 f
+("")4680 3600 w
+10 R f
+(will delete all lower case Latin letters from the text.)9 2135 1 1680 3720 t
+( solving the identical SHIFT-IN/OUT sequences problem using)7 2693(Below is an example of)4 1027 2 1680 3840 t
+( above. Assume, that you have 2 character sets in)9 2064(character set code -3 which I promissed)6 1656 2 1680 3960 t
+( accomplished by a)3 816(the input \256le, but switching between them is)7 1877 2 1680 4080 t
+10 S1 f
+(")4414 4080 w
+10 R f
+(toggle)4455 4080 w
+10 S1 f
+(")4705 4080 w
+10 R f
+(character. That)1 613 1 4787 4080 t
+( found, you should switch to the other set. Also, if you want)12 2564(is, if the toggle character is)5 1156 2 1680 4200 t
+( in the set, you need to double it. Let also assume that we have)14 2637(to use the toggle character)4 1083 2 1680 4320 t
+( changing tog-)2 593(2 character codes which will never, ever appear. We can fool the translit by)13 3127 2 1680 4440 t
+( character code -3 to check for)6 1307(gle character to a unique character and backstepping with)8 2413 2 1680 4560 t
+(SHIFT-IN/OUT sequences again. Let the % sign be a toggle character, and that we have)14 3720 1 1680 4680 t
+( example codes)2 633(two codes \(for)2 592 2 1680 4800 t
+10 S1 f
+(\\)2971 4800 w
+10 R f
+(254 and)1 328 1 3031 4800 t
+10 S1 f
+(\\)3425 4800 w
+10 R f
+( The)1 222(255\) which will never appear in our text.)7 1693 2 3485 4800 t
+(appropriate entries in the transliteration table may look like:)8 2461 1 1680 4920 t
+(1)1980 5040 w
+10 S f
+({)2129 5040 w
+10 R f
+(%\([)2177 5040 w
+10 S1 f
+(\303)2326 5040 w
+10 R f
+(%]\))2359 5040 w
+10 S f
+(})2508 5040 w
+10 R f
+(-3)2721 5040 w
+10 S f
+({)2969 5040 w
+10 S1 f
+(\\)3049 5040 w
+10 R f
+(254)3093 5040 w
+10 S1 f
+(\\)3275 5040 w
+10 R f
+(1)3335 5040 w
+10 S f
+(})3385 5040 w
+10 R f
+(2)1980 5160 w
+10 S f
+({)2129 5160 w
+10 R f
+(%\([)2177 5160 w
+10 S1 f
+(\303)2326 5160 w
+10 R f
+(%]\))2359 5160 w
+10 S f
+(})2508 5160 w
+10 R f
+(-3)2721 5160 w
+10 S f
+({)2969 5160 w
+10 S1 f
+(\\)3049 5160 w
+10 R f
+(255)3093 5160 w
+10 S1 f
+(\\)3275 5160 w
+10 R f
+(1)3335 5160 w
+10 S f
+(})3385 5160 w
+10 R f
+(0)1980 5280 w
+10 S1 f
+(")2129 5280 w
+10 R f
+(%%)2170 5280 w
+10 S1 f
+(")2336 5280 w
+10 R f
+(0)2674 5280 w
+10 S1 f
+(")2889 5280 w
+10 R f
+(%)2930 5280 w
+10 S1 f
+(")3013 5280 w
+10 R f
+( 2; and)2 318(i.e., when the single % is seen in set 1, produce SHIFT-OUT sequence for set)14 3402 2 1680 5400 t
+( SHIFT-IN sequence for set 1. The appropriate)7 1958(when a single % is seen in set 2, produce)9 1762 2 1680 5520 t
+(input character set de\256nitions will be:)5 1547 1 1680 5640 t
+(2)1980 5760 w
+10 S1 f
+(#)2525 5760 w
+10 R f
+(number of input character sets)4 1240 1 2608 5760 t
+10 S1 f
+(" \\)1 101 1 1980 5880 t
+10 R f
+(255)2113 5880 w
+10 S1 f
+( "")1 148( "" "" "")3 642(" "")1 222 3 2263 5880 t
+(" \\)1 101 1 1980 6000 t
+10 R f
+(254)2113 6000 w
+10 S1 f
+( "")1 148( "" "" "")3 642(" "")1 222 3 2263 6000 t
+10 R f
+(However, be warned. I never tried this. If this trick does not work, please let me know.)16 3590 1 1680 6120 t
+( to create your own transliteration \256le, please examine existing transliteration)10 3257(Before you decide)2 763 2 1380 6360 t
+( many comments as possible there. If you allow)8 2010(\256les. Do yourself \(and others\) a favor --- put as)9 2010 2 1380 6480 t
+(others to use your transliteration \256les, please include your name and e-mail address and \256le crea-)15 4020 1 1380 6600 t
+(tion date.)1 380 1 1380 6720 t
+( the sequences in a speci\256c order:)6 1389(Program matches)1 737 2 980 7080 t
+(1\) if NEST counter is zero, Match/substitute current set SHIFT-IN sequence)10 3127 1 1230 7200 t
+( 13)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7680 t
+cleartomark
+showpage
+restore
+%%EndPage: 13 13
+%%Page: 14 14
+save
+mark
+14 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+(2\) If matched, restore previous set number)6 1741 1 1230 960 t
+(3\) If matched, restore previous set nest counter)7 1929 1 1230 1080 t
+(4\) Match/substitute input SHIFT-OUT sequences)4 2008 1 1230 1200 t
+(5\) If matched, save current set and start new one)9 2005 1 1230 1320 t
+(6\) If matched, zero nest counter for NEST sequences)8 2177 1 1230 1440 t
+(7\) Match/substitute transliteration sequences)3 1808 1 1230 1560 t
+( matched and code = -1 make substitution in input buffer and continue matching the next)15 3969(8\) If)1 201 2 1230 1680 t
+(sequence.)1380 1800 w
+(9\) If matched and code = -2 make substitution and goto 7\))11 2410 1 1230 1920 t
+(10\) If matched and code = -3 make substitution and goto 1\))11 2460 1 1180 2040 t
+(11\) Match \(no substitution\) NEST-up and NEST-down to input buffer)9 2878 1 1180 2160 t
+(12\) If NEST-up matched, increment counter for current set)8 2416 1 1180 2280 t
+(13\) If NEST-down matched, decrement counter for current set)8 2554 1 1180 2400 t
+(14\) If match in 7\) send substitute sequence to output)9 2167 1 1180 2520 t
+(15\) If no match in 7\) \(or code -1\) output current input character)12 2628 1 1180 2640 t
+(16\) Advance input pointer to point at new characters)8 2165 1 1180 2760 t
+(17\) If End of File, break)5 1010 1 1180 2880 t
+(18\) Goto 1\))2 482 1 1180 3000 t
+9 B f
+(ASCII CHARACTER CODES)2 1230 1 720 3288 t
+10 R f
+( ch)1 272( oct)1 422( hx)1 162( dec)1 744( ch)1 372( oct)1 322(dec hx)1 500 7 1280 3408 t
+( 000)1 350(0 00)1 400 2 1380 3648 t
+10 S1 f
+(\303@)2380 3648 w
+10 R f
+( 100)1 450( 40)1 150(NUL 64)1 550 3 2680 3648 t
+10 S1 f
+(@)3980 3648 w
+10 R f
+( 001)1 350(1 01)1 400 2 1380 3768 t
+10 S1 f
+(\303)2380 3768 w
+10 R f
+( A)1 222( 101)1 450( 41)1 150( 65)1 350(A SOH)1 467 5 2413 3768 t
+( 002)1 350(2 02)1 400 2 1380 3888 t
+10 S1 f
+(\303)2380 3888 w
+10 R f
+( B)1 217( 102)1 450( 42)1 150( 66)1 361(B STX)1 456 5 2413 3888 t
+( 003)1 350(3 03)1 400 2 1380 4008 t
+10 S1 f
+(\303)2380 4008 w
+10 R f
+( C)1 217( 103)1 450( 43)1 150( 67)1 356(C ETX)1 461 5 2413 4008 t
+( 004)1 350(4 04)1 400 2 1380 4128 t
+10 S1 f
+(\303)2380 4128 w
+10 R f
+( D)1 222( 104)1 450( 44)1 150( 68)1 356(D EOT)1 461 5 2413 4128 t
+( 005)1 350(5 05)1 400 2 1380 4248 t
+10 S1 f
+(\303)2380 4248 w
+10 R f
+( E)1 211( 105)1 450( 45)1 150( 69)1 345(E ENQ)1 472 5 2413 4248 t
+( 006)1 350(6 06)1 400 2 1380 4368 t
+10 S1 f
+(\303)2380 4368 w
+10 R f
+( F)1 206( 106)1 450( 46)1 150( 70)1 339(F ACK)1 478 5 2413 4368 t
+( 007)1 350(7 07)1 400 2 1380 4488 t
+10 S1 f
+(\303)2380 4488 w
+10 R f
+( G)1 222( 107)1 450( 47)1 150( 71)1 361(G BEL)1 456 5 2413 4488 t
+( 010)1 350(8 08)1 400 2 1380 4608 t
+10 S1 f
+(\303)2380 4608 w
+10 R f
+( H)1 222( 110)1 450( 48)1 150( 72)1 427(H BS)1 390 5 2413 4608 t
+( 011)1 350(9 09)1 400 2 1380 4728 t
+10 S1 f
+(\303)2380 4728 w
+10 R f
+( I)1 183( 111)1 450( 49)1 150( 73)1 417(I HT)1 400 5 2413 4728 t
+( 012)1 356(10 0a)1 444 2 1330 4848 t
+10 S1 f
+(\303)2380 4848 w
+10 R f
+( J)1 189( 112)1 456( 4a)1 144( 74)1 433(J LF)1 384 5 2413 4848 t
+( 013)1 350(11 0b)1 450 2 1330 4968 t
+10 S1 f
+(\303)2380 4968 w
+10 R f
+( K)1 222( 113)1 450( 4b)1 150( 75)1 417(K VT)1 400 5 2413 4968 t
+( 014)1 356(12 0c)1 444 2 1330 5088 t
+10 S1 f
+(\303)2380 5088 w
+10 R f
+( L)1 211( 114)1 456( 4c)1 144( 76)1 438(L FF)1 379 5 2413 5088 t
+( 015)1 350(13 0d)1 450 2 1330 5208 t
+10 S1 f
+(\303)2380 5208 w
+10 R f
+( M)1 239( 115)1 450( 4d)1 150( 77)1 416(M CR)1 401 5 2413 5208 t
+( 016)1 356(14 0e)1 444 2 1330 5328 t
+10 S1 f
+(\303)2380 5328 w
+10 R f
+( N)1 222( 116)1 456( 4e)1 144( 78)1 422(N SO)1 395 5 2413 5328 t
+( 017)1 367(15 0f)1 433 2 1330 5448 t
+10 S1 f
+(\303)2380 5448 w
+10 R f
+( O)1 222( 117)1 467( 4f)1 133( 79)1 461(O SI)1 356 5 2413 5448 t
+( 020)1 350(16 10)1 450 2 1330 5568 t
+10 S1 f
+(\303)2380 5568 w
+10 R f
+( P)1 206( 120)1 450( 50)1 150( 80)1 356(P DLE)1 461 5 2413 5568 t
+( 021)1 350(17 11)1 450 2 1330 5688 t
+10 S1 f
+(\303)2380 5688 w
+10 R f
+( Q)1 222( 121)1 450( 51)1 150( 81)1 361(Q DC1)1 456 5 2413 5688 t
+( 022)1 350(18 12)1 450 2 1330 5808 t
+10 S1 f
+(\303)2380 5808 w
+10 R f
+( R)1 217( 122)1 450( 52)1 150( 82)1 361(R DC2)1 456 5 2413 5808 t
+( 023)1 350(19 13)1 450 2 1330 5928 t
+10 S1 f
+(\303)2380 5928 w
+10 R f
+( S)1 206( 123)1 450( 53)1 150( 83)1 361(S DC3)1 456 5 2413 5928 t
+( 024)1 350(20 14)1 450 2 1330 6048 t
+10 S1 f
+(\303)2380 6048 w
+10 R f
+( T)1 211( 124)1 450( 54)1 150( 84)1 361(T DC4)1 456 5 2413 6048 t
+( 025)1 350(21 15)1 450 2 1330 6168 t
+10 S1 f
+(\303)2380 6168 w
+10 R f
+( U)1 222( 125)1 450( 55)1 150( 85)1 334(U NAK)1 483 5 2413 6168 t
+( 026)1 350(22 16)1 450 2 1330 6288 t
+10 S1 f
+(\303)2380 6288 w
+10 R f
+( V)1 222( 126)1 450( 56)1 150( 86)1 350(V SYN)1 467 5 2413 6288 t
+( 027)1 350(23 17)1 450 2 1330 6408 t
+10 S1 f
+(\303)2380 6408 w
+10 R f
+( W)1 244( 127)1 450( 57)1 150( 87)1 361(W ETB)1 456 5 2413 6408 t
+( 030)1 350(24 18)1 450 2 1330 6528 t
+10 S1 f
+(\303)2380 6528 w
+10 R f
+( X)1 222( 130)1 450( 58)1 150( 88)1 339(X CAN)1 478 5 2413 6528 t
+( 031)1 350(25 19)1 450 2 1330 6648 t
+10 S1 f
+(\303)2380 6648 w
+10 R f
+( Y)1 222( 131)1 450( 59)1 150( 89)1 400(Y EM)1 417 5 2413 6648 t
+( 032)1 356(26 1a)1 444 2 1330 6768 t
+10 S1 f
+(\303)2380 6768 w
+10 R f
+( Z)1 211( 132)1 456( 5a)1 144( 90)1 355(Z SUB)1 462 5 2413 6768 t
+( 033)1 350(27 1b)1 450 2 1330 6888 t
+10 S1 f
+(\303)2380 6888 w
+10 R f
+( [)1 183( 133)1 450( 5b)1 150( 91)1 366([ ESC)1 451 5 2413 6888 t
+( 034)1 356(28 1c)1 444 2 1330 7008 t
+10 S1 f
+(\303\\)2380 7008 w
+10 R f
+( 134)1 456( 5c)1 144(FS 92)1 550 3 2680 7008 t
+10 S1 f
+(\\)3980 7008 w
+10 R f
+( 035)1 350(29 1d)1 450 2 1330 7128 t
+10 S1 f
+(\303)2380 7128 w
+10 R f
+( ])1 183( 135)1 450( 5d)1 150( 93)1 422(] GS)1 395 5 2413 7128 t
+( 036)1 356(30 1e)1 444 2 1330 7248 t
+10 S1 f
+(\303\303)2380 7248 w
+10 R f
+( 136)1 456( 5e)1 144(RS 94)1 550 3 2680 7248 t
+10 S1 f
+(\303)3980 7248 w
+10 R f
+( 14)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7728 t
+cleartomark
+showpage
+restore
+%%EndPage: 14 14
+%%Page: 15 15
+save
+mark
+15 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+( 037)1 367(31 1f)1 433 2 1330 960 t
+10 S1 f
+(\303)2380 960 w
+10 S f
+(_)2413 960 w
+10 R f
+( 137)1 467( 5f)1 133(US 95)1 550 3 2680 960 t
+10 S f
+(_)3980 960 w
+10 R f
+( `)1 183( 140)1 450( 60)1 150( 96)1 438( SP)1 662( 040)1 350(32 20)1 450 7 1330 1080 t
+( a)1 194( 141)1 450( 61)1 150( 97)1 817( !)1 283( 041)1 350(33 21)1 450 7 1330 1200 t
+( 042)1 350(34 22)1 450 2 1330 1320 t
+10 S1 f
+(")2380 1320 w
+10 R f
+( b)1 200( 142)1 450(98 62)1 250 3 3130 1320 t
+( 043)1 350(35 23)1 450 2 1330 1440 t
+10 S1 f
+(#)2380 1440 w
+10 R f
+( c)1 194( 143)1 450(99 63)1 250 3 3130 1440 t
+( d)1 200( 144)1 450( 64)1 150( 100)1 800( $)1 300( 044)1 350(36 24)1 450 7 1330 1560 t
+( e)1 194( 145)1 450( 65)1 150( 101)1 767( %)1 333( 045)1 350(37 25)1 450 7 1330 1680 t
+( f)1 183( 146)1 450( 66)1 150( 102)1 772( &)1 328( 046)1 350(38 26)1 450 7 1330 1800 t
+( g)1 200( 147)1 450( 67)1 150( 103)1 817( ')1 283( 047)1 350(39 27)1 450 7 1330 1920 t
+( h)1 200( 150)1 450( 68)1 150( 104)1 817( \()1 283( 050)1 350(40 28)1 450 7 1330 2040 t
+( i)1 178( 151)1 450( 69)1 150( 105)1 817( \))1 283( 051)1 350(41 29)1 450 7 1330 2160 t
+( 052)1 356(42 2a)1 444 2 1330 2280 t
+10 S f
+(*)2380 2280 w
+10 R f
+( j)1 178( 152)1 456(106 6a)1 294 3 3080 2280 t
+( k)1 200( 153)1 450( 6b)1 150( 107)1 794( +)1 306( 053)1 350(43 2b)1 450 7 1330 2400 t
+( l)1 178( 154)1 456( 6c)1 144( 108)1 825( ,)1 275( 054)1 356(44 2c)1 444 7 1330 2520 t
+( m)1 228( 155)1 450( 6d)1 150( 109)1 817( -)1 283( 055)1 350(45 2d)1 450 7 1330 2640 t
+( n)1 200( 156)1 456( 6e)1 144( 110)1 825( .)1 275( 056)1 356(46 2e)1 444 7 1330 2760 t
+( o)1 200( 157)1 467( 6f)1 133( 111)1 822( /)1 278( 057)1 367(47 2f)1 433 7 1330 2880 t
+( p)1 200( 160)1 450( 70)1 150( 112)1 800( 0)1 300( 060)1 350(48 30)1 450 7 1330 3000 t
+( q)1 200( 161)1 450( 71)1 150( 113)1 800( 1)1 300( 061)1 350(49 31)1 450 7 1330 3120 t
+( r)1 183( 162)1 450( 72)1 150( 114)1 800( 2)1 300( 062)1 350(50 32)1 450 7 1330 3240 t
+( s)1 189( 163)1 450( 73)1 150( 115)1 800( 3)1 300( 063)1 350(51 33)1 450 7 1330 3360 t
+( t)1 178( 164)1 450( 74)1 150( 116)1 800( 4)1 300( 064)1 350(52 34)1 450 7 1330 3480 t
+( u)1 200( 165)1 450( 75)1 150( 117)1 800( 5)1 300( 065)1 350(53 35)1 450 7 1330 3600 t
+( v)1 200( 166)1 450( 76)1 150( 118)1 800( 6)1 300( 066)1 350(54 36)1 450 7 1330 3720 t
+( w)1 222( 167)1 450( 77)1 150( 119)1 800( 7)1 300( 067)1 350(55 37)1 450 7 1330 3840 t
+( x)1 200( 170)1 450( 78)1 150( 120)1 800( 8)1 300( 070)1 350(56 38)1 450 7 1330 3960 t
+( y)1 200( 171)1 450( 79)1 150( 121)1 800( 9)1 300( 071)1 350(57 39)1 450 7 1330 4080 t
+( z)1 194( 172)1 456( 7a)1 144( 122)1 822( :)1 278( 072)1 356(58 3a)1 444 7 1330 4200 t
+( 173)1 450( 7b)1 150( 123)1 822( ;)1 278( 073)1 350(59 3b)1 450 6 1330 4320 t
+10 S f
+({)3980 4320 w
+10 R f
+( 074)1 356(60 3c)1 444 2 1330 4440 t
+10 S1 f
+(<)2380 4440 w
+10 R f
+( 174)1 456(124 7c)1 294 2 3080 4440 t
+10 S f
+(\372)3980 4440 w
+10 R f
+( 175)1 450( 7d)1 150( 125)1 794( =)1 306( 075)1 350(61 3d)1 450 6 1330 4560 t
+10 S f
+(})3980 4560 w
+10 R f
+( 076)1 356(62 3e)1 444 2 1330 4680 t
+10 S1 f
+(>)2380 4680 w
+10 R f
+( 176)1 456(126 7e)1 294 2 3080 4680 t
+10 S1 f
+(\304)3980 4680 w
+10 R f
+( DEL)1 344( 177)1 467( 7f)1 133( 127)1 806( ?)1 294( 077)1 367(63 3f)1 433 7 1330 4800 t
+9 B f
+(CONVERSION: DECIMAL)1 1120 1 720 5208 t
+9 S1 f
+(<)1840 5208 w
+9 B f
+(--)1890 5208 w
+9 S1 f
+(>)1950 5208 w
+9 B f
+(OCTAL)2000 5208 w
+9 S1 f
+(<)2320 5208 w
+9 B f
+(--)2370 5208 w
+9 S1 f
+(>)2430 5208 w
+9 B f
+(HEX.)2480 5208 w
+10 R f
+( 0)1 57( C)1 207( 0 0)2 132( 3)1 198( 9 2)2 132( 1)1 396( 0)1 66( 8)1 198( 0 0)2 132( 2)1 198( 2 8)2 132( 1)1 396( 0)1 66( 4)1 198( 0 0)2 132( 1)1 198( 6 4)2 132( 0)1 396( 0)1 66( 0)1 198( 0 0)2 132( 0)1 198(0 0 0)2 182 23 1154 5328 t
+( 1)1 57( C)1 207( 0 1)2 132( 3)1 198( 9 3)2 132( 1)1 396( 1)1 66( 8)1 198( 0 1)2 132( 2)1 198( 2 9)2 132( 1)1 396( 1)1 66( 4)1 198( 0 1)2 132( 1)1 198( 6 5)2 132( 0)1 396( 1)1 66( 0)1 198( 0 1)2 132( 0)1 198(0 0 1)2 182 23 1154 5448 t
+( 2)1 57( C)1 207( 0 2)2 132( 3)1 198( 9 4)2 132( 1)1 396( 2)1 66( 8)1 198( 0 2)2 132( 2)1 198( 3 0)2 132( 1)1 396( 2)1 66( 4)1 198( 0 2)2 132( 1)1 198( 6 6)2 132( 0)1 396( 2)1 66( 0)1 198( 0 2)2 132( 0)1 198(0 0 2)2 182 23 1154 5568 t
+( 3)1 57( C)1 207( 0 3)2 132( 3)1 198( 9 5)2 132( 1)1 396( 3)1 66( 8)1 198( 0 3)2 132( 2)1 198( 3 1)2 132( 1)1 396( 3)1 66( 4)1 198( 0 3)2 132( 1)1 198( 6 7)2 132( 0)1 396( 3)1 66( 0)1 198( 0 3)2 132( 0)1 198(0 0 3)2 182 23 1154 5688 t
+( 4)1 57( C)1 207( 0 4)2 132( 3)1 198( 9 6)2 132( 1)1 396( 4)1 66( 8)1 198( 0 4)2 132( 2)1 198( 3 2)2 132( 1)1 396( 4)1 66( 4)1 198( 0 4)2 132( 1)1 198( 6 8)2 132( 0)1 396( 4)1 66( 0)1 198( 0 4)2 132( 0)1 198(0 0 4)2 182 23 1154 5808 t
+( 5)1 57( C)1 207( 0 5)2 132( 3)1 198( 9 7)2 132( 1)1 396( 5)1 66( 8)1 198( 0 5)2 132( 2)1 198( 3 3)2 132( 1)1 396( 5)1 66( 4)1 198( 0 5)2 132( 1)1 198( 6 9)2 132( 0)1 396( 5)1 66( 0)1 198( 0 5)2 132( 0)1 198(0 0 5)2 182 23 1154 5928 t
+( 6)1 57( C)1 207( 0 6)2 132( 3)1 198( 9 8)2 132( 1)1 396( 6)1 66( 8)1 198( 0 6)2 132( 2)1 198( 3 4)2 132( 1)1 396( 6)1 66( 4)1 198( 0 6)2 132( 1)1 198( 7 0)2 132( 0)1 396( 6)1 66( 0)1 198( 0 6)2 132( 0)1 198(0 0 6)2 182 23 1154 6048 t
+( 7)1 57( C)1 207( 0 7)2 132( 3)1 198( 9 9)2 132( 1)1 396( 7)1 66( 8)1 198( 0 7)2 132( 2)1 198( 3 5)2 132( 1)1 396( 7)1 66( 4)1 198( 0 7)2 132( 1)1 198( 7 1)2 132( 0)1 396( 7)1 66( 0)1 198( 0 7)2 132( 0)1 198(0 0 7)2 182 23 1154 6168 t
+( 8)1 57( C)1 207( 1 0)2 132( 3)1 198( 0 0)2 132( 2)1 396( 8)1 66( 8)1 198( 1 0)2 132( 2)1 198( 3 6)2 132( 1)1 396( 8)1 66( 4)1 198( 1 0)2 132( 1)1 198( 7 2)2 132( 0)1 396( 8)1 66( 0)1 198( 1 0)2 132( 0)1 198(0 0 8)2 182 23 1154 6288 t
+( 9)1 57( C)1 207( 1 1)2 132( 3)1 198( 0 1)2 132( 2)1 396( 9)1 66( 8)1 198( 1 1)2 132( 2)1 198( 3 7)2 132( 1)1 396( 9)1 66( 4)1 198( 1 1)2 132( 1)1 198( 7 3)2 132( 0)1 396( 9)1 66( 0)1 198( 1 1)2 132( 0)1 198(0 0 9)2 182 23 1154 6408 t
+( A)1 68( C)1 207( 1 2)2 132( 3)1 198( 0 2)2 132( 2)1 385( A)1 77( 8)1 198( 1 2)2 132( 2)1 198( 3 8)2 132( 1)1 385( A)1 77( 4)1 198( 1 2)2 132( 1)1 198( 7 4)2 132( 0)1 385( A)1 77( 0)1 198( 1 2)2 132( 0)1 198(0 1 0)2 182 23 1154 6528 t
+( CB)1 274( 1 3)2 132( 3)1 198( 0 3)2 132( 2)1 387( B)1 75( 8)1 198( 1 3)2 132( 2)1 198( 3 9)2 132( 1)1 387( B)1 75( 4)1 198( 1 3)2 132( 1)1 198( 7 5)2 132( 0)1 387( B)1 75( 0)1 198( 1 3)2 132( 0)1 198(0 1 1)2 182 22 1154 6648 t
+( CC)1 274( 1 4)2 132( 3)1 198( 0 4)2 132( 2)1 387( C)1 75( 8)1 198( 1 4)2 132( 2)1 198( 4 0)2 132( 1)1 387( C)1 75( 4)1 198( 1 4)2 132( 1)1 198( 7 6)2 132( 0)1 387( C)1 75( 0)1 198( 1 4)2 132( 0)1 198(0 1 2)2 182 22 1154 6768 t
+( D)1 68( C)1 207( 1 5)2 132( 3)1 198( 0 5)2 132( 2)1 385( D)1 77( 8)1 198( 1 5)2 132( 2)1 198( 4 1)2 132( 1)1 385( D)1 77( 4)1 198( 1 5)2 132( 1)1 198( 7 7)2 132( 0)1 385( D)1 77( 0)1 198( 1 5)2 132( 0)1 198(0 1 3)2 182 23 1154 6888 t
+( CE)1 268( 1 6)2 132( 3)1 198( 0 6)2 132( 2)1 391( E)1 71( 8)1 198( 1 6)2 132( 2)1 198( 4 2)2 132( 1)1 391( E)1 71( 4)1 198( 1 6)2 132( 1)1 198( 7 8)2 132( 0)1 391( E)1 71( 0)1 198( 1 6)2 132( 0)1 198(0 1 4)2 182 22 1154 7008 t
+( F)1 60( C)1 207( 1 7)2 132( 3)1 198( 0 7)2 132( 2)1 393( F)1 69( 8)1 198( 1 7)2 132( 2)1 198( 4 3)2 132( 1)1 393( F)1 69( 4)1 198( 1 7)2 132( 1)1 198( 7 9)2 132( 0)1 393( F)1 69( 0)1 198( 1 7)2 132( 0)1 198(0 1 5)2 182 23 1154 7128 t
+( 0)1 55( D)1 209( 2 0)2 132( 3)1 198( 0 8)2 132( 2)1 396( 0)1 66( 9)1 198( 2 0)2 132( 2)1 198( 4 4)2 132( 1)1 396( 0)1 66( 5)1 198( 2 0)2 132( 1)1 198( 8 0)2 132( 0)1 396( 0)1 66( 1)1 198( 2 0)2 132( 0)1 198(0 1 6)2 182 23 1154 7248 t
+( 5)1 66( 1)1 1482( 9 9 7)3 198( 1)1 75( -)1 57( n)1 69( a)1 69( J)1 69( -)1 57( 2)1 66( 2)1 143( :)1 58( e)1 63( g)1 66( h a n)3 201( c)1 140( t)1 61( s)1 63( a)1 58( L)1 1415(J KL)1 183 21 733 7728 t
+cleartomark
+showpage
+restore
+%%EndPage: 15 15
+%%Page: 16 16
+save
+mark
+16 pagesetup
+10 R f
+( \))1 67( KL)1 144( J)1 85( \()1 68( I T)2 132( L)1 70( NS)1 122( A)1 68( R)1 70( T)1 1109( 3)1 66( 0)1 79( .)1 53( 1)1 132( n)1 66( o)1 77( i)1 61( s)1 69( r)1 60( e)1 52( V)1 1124( \))1 67( KL)1 144( J)1 85( \()1 68( I T)2 132( L)1 70( NS)1 122( A)1 68(T R)1 131 30 722 480 t
+( 1)1 55( D)1 209( 2 1)2 132( 3)1 198( 0 9)2 132( 2)1 396( 1)1 66( 9)1 198( 2 1)2 132( 2)1 198( 4 5)2 132( 1)1 396( 1)1 66( 5)1 198( 2 1)2 132( 1)1 198( 8 1)2 132( 0)1 396( 1)1 66( 1)1 198( 2 1)2 132( 0)1 198(0 1 7)2 182 23 1154 960 t
+( 2)1 55( D)1 209( 2 2)2 132( 3)1 198( 1 0)2 132( 2)1 396( 2)1 66( 9)1 198( 2 2)2 132( 2)1 198( 4 6)2 132( 1)1 396( 2)1 66( 5)1 198( 2 2)2 132( 1)1 198( 8 2)2 132( 0)1 396( 2)1 66( 1)1 198( 2 2)2 132( 0)1 198(0 1 8)2 182 23 1154 1080 t
+( 3)1 55( D)1 209( 2 3)2 132( 3)1 198( 1 1)2 132( 2)1 396( 3)1 66( 9)1 198( 2 3)2 132( 2)1 198( 4 7)2 132( 1)1 396( 3)1 66( 5)1 198( 2 3)2 132( 1)1 198( 8 3)2 132( 0)1 396( 3)1 66( 1)1 198( 2 3)2 132( 0)1 198(0 1 9)2 182 23 1154 1200 t
+( 4)1 55( D)1 209( 2 4)2 132( 3)1 198( 1 2)2 132( 2)1 396( 4)1 66( 9)1 198( 2 4)2 132( 2)1 198( 4 8)2 132( 1)1 396( 4)1 66( 5)1 198( 2 4)2 132( 1)1 198( 8 4)2 132( 0)1 396( 4)1 66( 1)1 198( 2 4)2 132( 0)1 198(0 2 0)2 182 23 1154 1320 t
+( 5)1 55( D)1 209( 2 5)2 132( 3)1 198( 1 3)2 132( 2)1 396( 5)1 66( 9)1 198( 2 5)2 132( 2)1 198( 4 9)2 132( 1)1 396( 5)1 66( 5)1 198( 2 5)2 132( 1)1 198( 8 5)2 132( 0)1 396( 5)1 66( 1)1 198( 2 5)2 132( 0)1 198(0 2 1)2 182 23 1154 1440 t
+( 6)1 55( D)1 209( 2 6)2 132( 3)1 198( 1 4)2 132( 2)1 396( 6)1 66( 9)1 198( 2 6)2 132( 2)1 198( 5 0)2 132( 1)1 396( 6)1 66( 5)1 198( 2 6)2 132( 1)1 198( 8 6)2 132( 0)1 396( 6)1 66( 1)1 198( 2 6)2 132( 0)1 198(0 2 2)2 182 23 1154 1560 t
+( 7)1 55( D)1 209( 2 7)2 132( 3)1 198( 1 5)2 132( 2)1 396( 7)1 66( 9)1 198( 2 7)2 132( 2)1 198( 5 1)2 132( 1)1 396( 7)1 66( 5)1 198( 2 7)2 132( 1)1 198( 8 7)2 132( 0)1 396( 7)1 66( 1)1 198( 2 7)2 132( 0)1 198(0 2 3)2 182 23 1154 1680 t
+( 8)1 55( D)1 209( 3 0)2 132( 3)1 198( 1 6)2 132( 2)1 396( 8)1 66( 9)1 198( 3 0)2 132( 2)1 198( 5 2)2 132( 1)1 396( 8)1 66( 5)1 198( 3 0)2 132( 1)1 198( 8 8)2 132( 0)1 396( 8)1 66( 1)1 198( 3 0)2 132( 0)1 198(0 2 4)2 182 23 1154 1800 t
+( 9)1 55( D)1 209( 3 1)2 132( 3)1 198( 1 7)2 132( 2)1 396( 9)1 66( 9)1 198( 3 1)2 132( 2)1 198( 5 3)2 132( 1)1 396( 9)1 66( 5)1 198( 3 1)2 132( 1)1 198( 8 9)2 132( 0)1 396( 9)1 66( 1)1 198( 3 1)2 132( 0)1 198(0 2 5)2 182 23 1154 1920 t
+( A)1 66( D)1 209( 3 2)2 132( 3)1 198( 1 8)2 132( 2)1 385( A)1 77( 9)1 198( 3 2)2 132( 2)1 198( 5 4)2 132( 1)1 385( A)1 77( 5)1 198( 3 2)2 132( 1)1 198( 9 0)2 132( 0)1 385( A)1 77( 1)1 198( 3 2)2 132( 0)1 198(0 2 6)2 182 23 1154 2040 t
+( B)1 64( D)1 209( 3 3)2 132( 3)1 198( 1 9)2 132( 2)1 387( B)1 75( 9)1 198( 3 3)2 132( 2)1 198( 5 5)2 132( 1)1 387( B)1 75( 5)1 198( 3 3)2 132( 1)1 198( 9 1)2 132( 0)1 387( B)1 75( 1)1 198( 3 3)2 132( 0)1 198(0 2 7)2 182 23 1154 2160 t
+( C)1 64( D)1 209( 3 4)2 132( 3)1 198( 2 0)2 132( 2)1 387( C)1 75( 9)1 198( 3 4)2 132( 2)1 198( 5 6)2 132( 1)1 387( C)1 75( 5)1 198( 3 4)2 132( 1)1 198( 9 2)2 132( 0)1 387( C)1 75( 1)1 198( 3 4)2 132( 0)1 198(0 2 8)2 182 23 1154 2280 t
+( D)1 66( D)1 209( 3 5)2 132( 3)1 198( 2 1)2 132( 2)1 385( D)1 77( 9)1 198( 3 5)2 132( 2)1 198( 5 7)2 132( 1)1 385( D)1 77( 5)1 198( 3 5)2 132( 1)1 198( 9 3)2 132( 0)1 385( D)1 77( 1)1 198( 3 5)2 132( 0)1 198(0 2 9)2 182 23 1154 2400 t
+( DE)1 270( 3 6)2 132( 3)1 198( 2 2)2 132( 2)1 391( E)1 71( 9)1 198( 3 6)2 132( 2)1 198( 5 8)2 132( 1)1 391( E)1 71( 5)1 198( 3 6)2 132( 1)1 198( 9 4)2 132( 0)1 391( E)1 71( 1)1 198( 3 6)2 132( 0)1 198(0 3 0)2 182 22 1154 2520 t
+( DF)1 265( 3 7)2 132( 3)1 198( 2 3)2 132( 2)1 393( F)1 69( 9)1 198( 3 7)2 132( 2)1 198( 5 9)2 132( 1)1 393( F)1 69( 5)1 198( 3 7)2 132( 1)1 198( 9 5)2 132( 0)1 393( F)1 69( 1)1 198( 3 7)2 132( 0)1 198(0 3 1)2 182 22 1154 2640 t
+( 0)1 61( E)1 203( 4 0)2 132( 3)1 198( 2 4)2 132( 2)1 396( 0)1 55( A)1 209( 4 0)2 132( 2)1 198( 6 0)2 132( 1)1 396( 0)1 66( 6)1 198( 4 0)2 132( 1)1 198( 9 6)2 132( 0)1 396( 0)1 66( 2)1 198( 4 0)2 132( 0)1 198(0 3 2)2 182 23 1154 2760 t
+( 1)1 61( E)1 203( 4 1)2 132( 3)1 198( 2 5)2 132( 2)1 396( 1)1 55( A)1 209( 4 1)2 132( 2)1 198( 6 1)2 132( 1)1 396( 1)1 66( 6)1 198( 4 1)2 132( 1)1 198( 9 7)2 132( 0)1 396( 1)1 66( 2)1 198( 4 1)2 132( 0)1 198(0 3 3)2 182 23 1154 2880 t
+( 2)1 61( E)1 203( 4 2)2 132( 3)1 198( 2 6)2 132( 2)1 396( 2)1 55( A)1 209( 4 2)2 132( 2)1 198( 6 2)2 132( 1)1 396( 2)1 66( 6)1 198( 4 2)2 132( 1)1 198( 9 8)2 132( 0)1 396( 2)1 66( 2)1 198( 4 2)2 132( 0)1 198(0 3 4)2 182 23 1154 3000 t
+( 3)1 61( E)1 203( 4 3)2 132( 3)1 198( 2 7)2 132( 2)1 396( 3)1 55( A)1 209( 4 3)2 132( 2)1 198( 6 3)2 132( 1)1 396( 3)1 66( 6)1 198( 4 3)2 132( 1)1 198( 9 9)2 132( 0)1 396( 3)1 66( 2)1 198( 4 3)2 132( 0)1 198(0 3 5)2 182 23 1154 3120 t
+( 4)1 61( E)1 203( 4 4)2 132( 3)1 198( 2 8)2 132( 2)1 396( 4)1 55( A)1 209( 4 4)2 132( 2)1 198( 6 4)2 132( 1)1 396( 4)1 66( 6)1 198( 4 4)2 132( 1)1 198( 0 0)2 132( 1)1 396( 4)1 66( 2)1 198( 4 4)2 132( 0)1 198(0 3 6)2 182 23 1154 3240 t
+( 5)1 61( E)1 203( 4 5)2 132( 3)1 198( 2 9)2 132( 2)1 396( 5)1 55( A)1 209( 4 5)2 132( 2)1 198( 6 5)2 132( 1)1 396( 5)1 66( 6)1 198( 4 5)2 132( 1)1 198( 0 1)2 132( 1)1 396( 5)1 66( 2)1 198( 4 5)2 132( 0)1 198(0 3 7)2 182 23 1154 3360 t
+( 6)1 61( E)1 203( 4 6)2 132( 3)1 198( 3 0)2 132( 2)1 396( 6)1 55( A)1 209( 4 6)2 132( 2)1 198( 6 6)2 132( 1)1 396( 6)1 66( 6)1 198( 4 6)2 132( 1)1 198( 0 2)2 132( 1)1 396( 6)1 66( 2)1 198( 4 6)2 132( 0)1 198(0 3 8)2 182 23 1154 3480 t
+( 7)1 61( E)1 203( 4 7)2 132( 3)1 198( 3 1)2 132( 2)1 396( 7)1 55( A)1 209( 4 7)2 132( 2)1 198( 6 7)2 132( 1)1 396( 7)1 66( 6)1 198( 4 7)2 132( 1)1 198( 0 3)2 132( 1)1 396( 7)1 66( 2)1 198( 4 7)2 132( 0)1 198(0 3 9)2 182 23 1154 3600 t
+( 8)1 61( E)1 203( 5 0)2 132( 3)1 198( 3 2)2 132( 2)1 396( 8)1 55( A)1 209( 5 0)2 132( 2)1 198( 6 8)2 132( 1)1 396( 8)1 66( 6)1 198( 5 0)2 132( 1)1 198( 0 4)2 132( 1)1 396( 8)1 66( 2)1 198( 5 0)2 132( 0)1 198(0 4 0)2 182 23 1154 3720 t
+( 9)1 61( E)1 203( 5 1)2 132( 3)1 198( 3 3)2 132( 2)1 396( 9)1 55( A)1 209( 5 1)2 132( 2)1 198( 6 9)2 132( 1)1 396( 9)1 66( 6)1 198( 5 1)2 132( 1)1 198( 0 5)2 132( 1)1 396( 9)1 66( 2)1 198( 5 1)2 132( 0)1 198(0 4 1)2 182 23 1154 3840 t
+( EA)1 275( 5 2)2 132( 3)1 198( 3 4)2 132( 2)1 385( A)1 66( A)1 209( 5 2)2 132( 2)1 198( 7 0)2 132( 1)1 385( A)1 77( 6)1 198( 5 2)2 132( 1)1 198( 0 6)2 132( 1)1 385( A)1 77( 2)1 198( 5 2)2 132( 0)1 198(0 4 2)2 182 22 1154 3960 t
+( B)1 70( E)1 203( 5 3)2 132( 3)1 198( 3 5)2 132( 2)1 387( B)1 64( A)1 209( 5 3)2 132( 2)1 198( 7 1)2 132( 1)1 387( B)1 75( 6)1 198( 5 3)2 132( 1)1 198( 0 7)2 132( 1)1 387( B)1 75( 2)1 198( 5 3)2 132( 0)1 198(0 4 3)2 182 23 1154 4080 t
+( C)1 70( E)1 203( 5 4)2 132( 3)1 198( 3 6)2 132( 2)1 387( C)1 64( A)1 209( 5 4)2 132( 2)1 198( 7 2)2 132( 1)1 387( C)1 75( 6)1 198( 5 4)2 132( 1)1 198( 0 8)2 132( 1)1 387( C)1 75( 2)1 198( 5 4)2 132( 0)1 198(0 4 4)2 182 23 1154 4200 t
+( ED)1 275( 5 5)2 132( 3)1 198( 3 7)2 132( 2)1 385( D)1 66( A)1 209( 5 5)2 132( 2)1 198( 7 3)2 132( 1)1 385( D)1 77( 6)1 198( 5 5)2 132( 1)1 198( 0 9)2 132( 1)1 385( D)1 77( 2)1 198( 5 5)2 132( 0)1 198(0 4 5)2 182 22 1154 4320 t
+( E)1 66( E)1 203( 5 6)2 132( 3)1 198( 3 8)2 132( 2)1 390( AE)1 270( 5 6)2 132( 2)1 198( 7 4)2 132( 1)1 391( E)1 71( 6)1 198( 5 6)2 132( 1)1 198( 1 0)2 132( 1)1 391( E)1 71( 2)1 198( 5 6)2 132( 0)1 198(0 4 6)2 182 22 1154 4440 t
+( F)1 64( E)1 203( 5 7)2 132( 3)1 198( 3 9)2 132( 2)1 395( AF)1 265( 5 7)2 132( 2)1 198( 7 5)2 132( 1)1 393( F)1 69( 6)1 198( 5 7)2 132( 1)1 198( 1 1)2 132( 1)1 393( F)1 69( 2)1 198( 5 7)2 132( 0)1 198(0 4 7)2 182 22 1154 4560 t
+( 0)1 63( F)1 201( 6 0)2 132( 3)1 198( 4 0)2 132( 2)1 396( 0)1 57( B)1 207( 6 0)2 132( 2)1 198( 7 6)2 132( 1)1 396( 0)1 66( 7)1 198( 6 0)2 132( 1)1 198( 1 2)2 132( 1)1 396( 0)1 66( 3)1 198( 6 0)2 132( 0)1 198(0 4 8)2 182 23 1154 4680 t
+( 1)1 63( F)1 201( 6 1)2 132( 3)1 198( 4 1)2 132( 2)1 396( 1)1 57( B)1 207( 6 1)2 132( 2)1 198( 7 7)2 132( 1)1 396( 1)1 66( 7)1 198( 6 1)2 132( 1)1 198( 1 3)2 132( 1)1 396( 1)1 66( 3)1 198( 6 1)2 132( 0)1 198(0 4 9)2 182 23 1154 4800 t
+( 2)1 63( F)1 201( 6 2)2 132( 3)1 198( 4 2)2 132( 2)1 396( 2)1 57( B)1 207( 6 2)2 132( 2)1 198( 7 8)2 132( 1)1 396( 2)1 66( 7)1 198( 6 2)2 132( 1)1 198( 1 4)2 132( 1)1 396( 2)1 66( 3)1 198( 6 2)2 132( 0)1 198(0 5 0)2 182 23 1154 4920 t
+( 3)1 63( F)1 201( 6 3)2 132( 3)1 198( 4 3)2 132( 2)1 396( 3)1 57( B)1 207( 6 3)2 132( 2)1 198( 7 9)2 132( 1)1 396( 3)1 66( 7)1 198( 6 3)2 132( 1)1 198( 1 5)2 132( 1)1 396( 3)1 66( 3)1 198( 6 3)2 132( 0)1 198(0 5 1)2 182 23 1154 5040 t
+( 4)1 63( F)1 201( 6 4)2 132( 3)1 198( 4 4)2 132( 2)1 396( 4)1 57( B)1 207( 6 4)2 132( 2)1 198( 8 0)2 132( 1)1 396( 4)1 66( 7)1 198( 6 4)2 132( 1)1 198( 1 6)2 132( 1)1 396( 4)1 66( 3)1 198( 6 4)2 132( 0)1 198(0 5 2)2 182 23 1154 5160 t
+( 5)1 63( F)1 201( 6 5)2 132( 3)1 198( 4 5)2 132( 2)1 396( 5)1 57( B)1 207( 6 5)2 132( 2)1 198( 8 1)2 132( 1)1 396( 5)1 66( 7)1 198( 6 5)2 132( 1)1 198( 1 7)2 132( 1)1 396( 5)1 66( 3)1 198( 6 5)2 132( 0)1 198(0 5 3)2 182 23 1154 5280 t
+( 6)1 63( F)1 201( 6 6)2 132( 3)1 198( 4 6)2 132( 2)1 396( 6)1 57( B)1 207( 6 6)2 132( 2)1 198( 8 2)2 132( 1)1 396( 6)1 66( 7)1 198( 6 6)2 132( 1)1 198( 1 8)2 132( 1)1 396( 6)1 66( 3)1 198( 6 6)2 132( 0)1 198(0 5 4)2 182 23 1154 5400 t
+( 7)1 63( F)1 201( 6 7)2 132( 3)1 198( 4 7)2 132( 2)1 396( 7)1 57( B)1 207( 6 7)2 132( 2)1 198( 8 3)2 132( 1)1 396( 7)1 66( 7)1 198( 6 7)2 132( 1)1 198( 1 9)2 132( 1)1 396( 7)1 66( 3)1 198( 6 7)2 132( 0)1 198(0 5 5)2 182 23 1154 5520 t
+( 8)1 63( F)1 201( 7 0)2 132( 3)1 198( 4 8)2 132( 2)1 396( 8)1 57( B)1 207( 7 0)2 132( 2)1 198( 8 4)2 132( 1)1 396( 8)1 66( 7)1 198( 7 0)2 132( 1)1 198( 2 0)2 132( 1)1 396( 8)1 66( 3)1 198( 7 0)2 132( 0)1 198(0 5 6)2 182 23 1154 5640 t
+( 9)1 63( F)1 201( 7 1)2 132( 3)1 198( 4 9)2 132( 2)1 396( 9)1 57( B)1 207( 7 1)2 132( 2)1 198( 8 5)2 132( 1)1 396( 9)1 66( 7)1 198( 7 1)2 132( 1)1 198( 2 1)2 132( 1)1 396( 9)1 66( 3)1 198( 7 1)2 132( 0)1 198(0 5 7)2 182 23 1154 5760 t
+( FA)1 273( 7 2)2 132( 3)1 198( 5 0)2 132( 2)1 385( A)1 68( B)1 207( 7 2)2 132( 2)1 198( 8 6)2 132( 1)1 385( A)1 77( 7)1 198( 7 2)2 132( 1)1 198( 2 2)2 132( 1)1 385( A)1 77( 3)1 198( 7 2)2 132( 0)1 198(0 5 8)2 182 22 1154 5880 t
+( B)1 72( F)1 201( 7 3)2 132( 3)1 198( 5 1)2 132( 2)1 386( BB)1 274( 7 3)2 132( 2)1 198( 8 7)2 132( 1)1 387( B)1 75( 7)1 198( 7 3)2 132( 1)1 198( 2 3)2 132( 1)1 387( B)1 75( 3)1 198( 7 3)2 132( 0)1 198(0 5 9)2 182 22 1154 6000 t
+( C)1 72( F)1 201( 7 4)2 132( 3)1 198( 5 2)2 132( 2)1 386( BC)1 274( 7 4)2 132( 2)1 198( 8 8)2 132( 1)1 387( C)1 75( 7)1 198( 7 4)2 132( 1)1 198( 2 4)2 132( 1)1 387( C)1 75( 3)1 198( 7 4)2 132( 0)1 198(0 6 0)2 182 22 1154 6120 t
+( FD)1 273( 7 5)2 132( 3)1 198( 5 3)2 132( 2)1 385( D)1 68( B)1 207( 7 5)2 132( 2)1 198( 8 9)2 132( 1)1 385( D)1 77( 7)1 198( 7 5)2 132( 1)1 198( 2 5)2 132( 1)1 385( D)1 77( 3)1 198( 7 5)2 132( 0)1 198(0 6 1)2 182 22 1154 6240 t
+( E)1 68( F)1 201( 7 6)2 132( 3)1 198( 5 4)2 132( 2)1 392( BE)1 268( 7 6)2 132( 2)1 198( 9 0)2 132( 1)1 391( E)1 71( 7)1 198( 7 6)2 132( 1)1 198( 2 6)2 132( 1)1 391( E)1 71( 3)1 198( 7 6)2 132( 0)1 198(0 6 2)2 182 22 1154 6360 t
+( F)1 66( F)1 201( 7 7)2 132( 3)1 198( 5 5)2 132( 2)1 393( F)1 60( B)1 207( 7 7)2 132( 2)1 198( 9 1)2 132( 1)1 393( F)1 69( 7)1 198( 7 7)2 132( 1)1 198( 2 7)2 132( 1)1 393( F)1 69( 3)1 198( 7 7)2 132( 0)1 198(0 6 3)2 182 23 1154 6480 t
+9 B f
+(INSTALLATION)720 6888 w
+10 R f
+( source form. It was tried under UN)7 1508(Program is given in a)4 899 2 1080 7008 t
+10 S f
+(*)3487 7008 w
+10 R f
+(X, VMS and MS-DOS systems and ran. The)7 1863 1 3537 7008 t
+(\256le)1080 7128 w
+10 I f
+(readme.doc)1244 7128 w
+10 R f
+( \256le from)2 392(contains the details on how to obtain the whole package. You can retrieve this)13 3260 2 1748 7128 t
+( can also obtain it via e-mail)6 1192( You)1 240( www.ccl.net in the directory /pub/russian/translit.)5 2148(anonymous ftp on)2 740 4 1080 7248 t
+( 16)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7728 t
+cleartomark
+showpage
+restore
+%%EndPage: 16 16
+%%Page: 17 17
+save
+mark
+17 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+(by sending a message:)3 920 1 1080 960 t
+(get translit/readme.doc from russian)3 1466 1 1280 1080 t
+(to OSCPOST)1 551 1 1080 1200 t
+10 S1 f
+(@)1631 1200 w
+10 R f
+(ccl.net or OSCPOST)2 891 1 1723 1200 t
+10 S1 f
+(@)2614 1200 w
+10 R f
+(OHSTPY.BITNET.)2706 1200 w
+(The source of the program consists of several \256les:)8 2099 1 1080 1440 t
+10 I f
+(paths.h)1080 1608 w
+10 R f
+( It contains its own comments what to do. The de\256nes in this)12 2538(must be edited before compilation.)4 1422 2 1440 1608 t
+( you are using and the default path for searching transliteration)10 2586(\256le relate to the operating system)5 1374 2 1440 1728 t
+(table.)1440 1848 w
+10 I f
+(translit.c)1080 2016 w
+10 R f
+( was intended to be a portable code.)7 1486( This)1 244(It contains the main program.)4 1211 3 1440 2136 t
+10 I f
+(reg)1080 2304 w
+10 S f
+(_)1213 2304 w
+10 I f
+(exp.h)1263 2304 w
+10 R f
+( the University of)3 732(the include \256le for regular expression matching library of Henry Spencer from)11 3228 2 1440 2424 t
+( Also 4)2 315(Toronto. This regular expression package was posted to comp.sources.misc \(volume 3\).)10 3645 2 1440 2544 t
+( the patches to the original code and)7 1579(patches were posted \(in volumes: 3, 4, 4, 10\). I applied)10 2381 2 1440 2664 t
+(made small modi\256cations to the code, which are marked in the source code.)12 3124 1 1440 2784 t
+10 I f
+(reg)1080 2952 w
+10 S f
+(_)1213 2952 w
+10 I f
+(exp.c)1263 2952 w
+10 R f
+(the regular expression library for compilation and matching of regular expressions.)10 3393 1 1440 3072 t
+10 I f
+(reg)1080 3240 w
+10 S f
+(_)1213 3240 w
+10 I f
+(sub.c)1263 3240 w
+10 R f
+(the regular expression substitution routine.)4 1739 1 1440 3360 t
+( to edit)2 296(Before you compile this program you have)6 1762 2 1080 3648 t
+10 I f
+(paths.h)3172 3648 w
+10 R f
+( compila-)1 389( During)1 350( comments in the \256le.)4 900(. Read)1 297 4 3464 3648 t
+(tion, all source code should reside in the current directory.)9 2398 1 1080 3768 t
+(Then you may compile the program under UN)7 1911 1 1080 3888 t
+10 S f
+(*)2991 3888 w
+10 R f
+(X as \(for example\):)3 802 1 3041 3888 t
+(cc -o translit translit.c reg)4 1055 1 1280 4008 t
+10 S f
+(_)2335 4008 w
+10 R f
+(exp.c reg)1 373 1 2385 4008 t
+10 S f
+(_)2758 4008 w
+10 R f
+(sub.c)2808 4008 w
+(and copy the program)3 984 1 1080 4128 t
+10 I f
+(translit)2126 4128 w
+10 R f
+( example:)1 429(to some standard directory which is in users' path \(for)9 2493 2 2478 4128 t
+( copy transliteration tables to the directory which you have chosen in)11 2941(/usr/local/bin\). Then you need to)4 1379 2 1080 4248 t
+10 I f
+(paths.h)1080 4368 w
+10 R f
+( \(with all the gory details:)5 1085( you get errors, then it is not OK. Please, report them to the author)14 2784(. If)1 159 3 1372 4368 t
+(error message, line number, machine, operating system, etc.\).)7 2509 1 1080 4488 t
+(Under VMS \(VAXes\) you need to compile it as:)8 2000 1 1080 4728 t
+(cc translit)1 399 1 1280 4848 t
+(cc reg)1 248 1 1280 4968 t
+10 S f
+(_)1528 4968 w
+10 R f
+(exp)1578 4968 w
+(cc reg)1 248 1 1280 5088 t
+10 S f
+(_)1528 5088 w
+10 R f
+(sub)1578 5088 w
+(link translit+reg)1 650 1 1280 5208 t
+10 S f
+(_)1930 5208 w
+10 R f
+(exp+reg)1980 5208 w
+10 S f
+(_)2307 5208 w
+10 R f
+(sub,sys$library:vaxcrtl/lib)2357 5208 w
+(and before you can use the program, you need to type \(or better put into your LOGIN.COM \256le\) a line:)19 4275 1 1080 5328 t
+(translit ==)1 423 1 1280 5448 t
+10 S1 f
+(")1736 5448 w
+10 R f
+($SYS$USER:[ME.TRA]TRANSLIT.EXE)1777 5448 w
+10 S1 f
+(")3488 5448 w
+10 R f
+(or whatever is the full path to the)7 1463 1 1080 5568 t
+10 I f
+(translit)2588 5568 w
+10 R f
+(executable image which you created with LINK. Note the)8 2476 1 2924 5568 t
+(quotes and the $ sign in front of program path.)9 1931 1 1080 5688 t
+(On an IBM-PC I used MicroSoft C 5.1 as:)8 1755 1 1080 5928 t
+(cl /FeTRANSLIT /AL /FPc /W1 /F 5000 /Ox /Gs translit.c reg)10 2577 1 1180 6048 t
+10 S f
+(_)3757 6048 w
+10 R f
+(exp.c reg)1 373 1 3807 6048 t
+10 S f
+(_)4180 6048 w
+10 R f
+(sub.c)4230 6048 w
+9 B f
+(RULES, CONDITIONS AND AUTHOR'S WHISHES)4 2178 1 720 6456 t
+10 R f
+(You can distribute this code and associated \256les under these conditions:)10 2949 1 1080 6576 t
+( \(even if you think that they are garbage\). You may get the com-)13 2793(1\) You will distribute all \256les)5 1261 2 1346 6696 t
+( the)1 165(plete set from anonymous ftp at www.ccl.net in /pub/russian/translit. You can also get)12 3755 2 1480 6816 t
+( distribution send a)3 815(program and associated \256les via e-mail. To get the instructions for e-mail)11 3105 2 1480 6936 t
+(line:)1480 7056 w
+(send translit/readme.doc from russian)3 1527 1 1711 7176 t
+(to OSCPOST)1 559 1 1480 7296 t
+10 S1 f
+(@)2039 7296 w
+10 R f
+(ccl.net or OSCPOST)2 907 1 2131 7296 t
+10 S1 f
+(@)3038 7296 w
+10 R f
+( not allowed to distribute)4 1068( are)1 162(OHSTPY.BITNET. You)1 1040 3 3130 7296 t
+( 17)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7776 t
+cleartomark
+showpage
+restore
+%%EndPage: 17 17
+%%Page: 18 18
+save
+mark
+18 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+(the incomplete distribution. The following \256les should be present in the distribution:)11 3466 1 1480 960 t
+( ALT to GOSTCII table)4 992(alt-gos.rus -)1 933 2 1680 1080 t
+( ALT to KOI8 table)4 825(alt-koi8.rus -)1 933 2 1680 1200 t
+( uuencoded example in ALT)4 1174(example.alt.uu -)1 933 2 1680 1320 t
+( uuencoded example in KOI8)4 1207(example.ko8.uu -)1 933 2 1680 1440 t
+( phonetic transliteration example)3 1336(example.pho -)1 933 2 1680 1560 t
+( LaTeX example)2 686(example.tex -)1 933 2 1680 1680 t
+( GOSTCII to ALT table)4 992(gos-alt.rus -)1 933 2 1680 1800 t
+( GOSTCII to KOI8 table)4 1025(gos-koi8.rus -)1 933 2 1680 1920 t
+( KOI7 to KOI8 table)4 858(koi7-8.rus -)1 933 2 1680 2040 t
+( KOI7 \(no Latin\) to KOI8 table)6 1301(koi7nl-8.rus -)1 933 2 1680 2160 t
+( KOI8 to KOI7 table)4 858(koi8-7.rus -)1 933 2 1680 2280 t
+( KOI8 to ALT table)4 825(koi8-alt.rus -)1 933 2 1680 2400 t
+( KOI8 to GOSTCII table)4 1025(koi8-gos.rus -)1 933 2 1680 2520 t
+( KOI8 to Library of Congress table)6 1451(koi8-lc.rus -)1 933 2 1680 2640 t
+( KOI8 to GOST transliteration)4 1253(koi8-phg.rus -)1 933 2 1680 2760 t
+( KOI8 to Pokrovsky transliteration)4 1420(koi8-php.rus -)1 933 2 1680 2880 t
+( KOI8 to LaTeX conversion)4 1157(koi8-ltx.rus -)1 933 2 1680 3000 t
+( KOI8 to Plain TeX conversion)5 1291(koi8-tex.rus -)1 933 2 1680 3120 t
+( Order form for ordering the program)6 1538(order.txt -)1 933 2 1680 3240 t
+( Include \256le for translit.c)4 1022(paths.h -)1 933 2 1680 3360 t
+( GOST transliteration to KOI8)4 1253(phg-koi8.rus -)1 933 2 1680 3480 t
+( Simple phonetic to KOI8)4 1065(pho-8sim.rus -)1 933 2 1680 3600 t
+( Various phonetic to KOI8)4 1097(pho-koi8.rus -)1 933 2 1680 3720 t
+( Pokrovsky to KOI8)3 832(php-koi8.rus -)1 933 2 1680 3840 t
+( short description of the \256les)5 1181(readme.doc -)1 933 2 1680 3960 t
+(reg)1680 4080 w
+10 S f
+(_)1807 4080 w
+10 R f
+( regular expression code by Henry Spencer)6 1765(exp.c -)1 756 2 1857 4080 t
+(reg)1680 4200 w
+10 S f
+(_)1807 4200 w
+10 R f
+( include for reg)3 636(exp.h -)1 756 2 1857 4200 t
+10 S f
+(_)3249 4200 w
+10 R f
+(exp.c and reg)2 550 1 3299 4200 t
+10 S f
+(_)3849 4200 w
+10 R f
+(sub.c)3899 4200 w
+(reg)1680 4320 w
+10 S f
+(_)1807 4320 w
+10 R f
+( regular expression code by H. Spencer)6 1613(sub.c -)1 756 2 1857 4320 t
+( LaTeX to KOI8)3 686(ltx-koi8.rus -)1 933 2 1680 4440 t
+( TRANSLIT main program)3 1120(translit.c -)1 933 2 1680 4560 t
+( TRANSLIT manual in PostScript)4 1399(translit.ps -)1 933 2 1680 4680 t
+( TRANSLIT manual in)3 954(translit.1 -)1 933 2 1680 4800 t
+10 S f
+(*)3600 4800 w
+10 R f
+(roff)3650 4800 w
+( Plain ASCII TRANSLIT manual)4 1376(translit.txt -)1 933 2 1680 4920 t
+( that)1 191(2\) You may expand/change the \256les and the program and distribute modi\256ed \256les, provided)13 3863 2 1346 5160 t
+( unnecessary portions out\) and clearly)5 1556(you do not delete anything \(you can always comment the)9 2364 2 1480 5280 t
+( author, though you are)4 969(mark your changes. Please send the copy of the modi\256ed version to the)12 2951 2 1480 5400 t
+( for your enhancements. I simply wish that)7 1779( will give you all the credit)6 1143( I)1 102(not required to do so.)4 896 4 1480 5520 t
+( of distribution for this code, so it is maintained to some extent. If you)14 3009(there is a single point)4 911 2 1480 5640 t
+( you may. I)3 506(create additional transliteration de\256nition \256les, please, send them to the author if)11 3414 2 1480 5760 t
+( the program distribution. I want to \256x bugs and expand/optimize this code,)12 3219(will add them to)3 701 2 1480 5880 t
+( do not know or do)5 798( need your transliteration \256les for languages which I)8 2157( I)1 100(but I need your help.)4 865 4 1480 6000 t
+( improving documentation are most welcome \(I am not)8 2283( suggestions for)2 651( Your)1 272(not use currently.)2 714 4 1480 6120 t
+(a native English speaker\).)3 1055 1 1480 6240 t
+( money for the program and/or associated \256les, except for media and copy-)12 3164(3\) You will not charge)4 956 2 1280 6360 t
+( \256rst. Bear in mind that the regular expres-)8 1804(ing costs. If you want to sell it, contact the author)10 2116 2 1480 6480 t
+( there are other regular)4 987( But)1 222(sion package by Henry Spencer has some copyright restrictions.)8 2711 3 1480 6600 t
+( violated by this offer-)4 933(expression packages which do not have these restrictions \(which are not)10 2987 2 1480 6720 t
+(ing\).)1480 6840 w
+( advice on compiling this software and try to \256x bugs when time)12 2828(4\) I will gladly help you with)6 1292 2 1280 6960 t
+( to run executable, you need to order it for a very nomi-)12 2352(allows. However, if you want a ready)6 1568 2 1480 7080 t
+(nal fee from)2 511 1 1480 7200 t
+10 I f
+(JKL ENTERPRISES, INC.)2 1082 1 2028 7200 t
+10 R f
+(as described in the \256le)4 945 1 3148 7200 t
+10 I f
+(order.txt)4131 7200 w
+10 R f
+(which must be a part)4 884 1 4516 7200 t
+( 18)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7680 t
+cleartomark
+showpage
+restore
+%%EndPage: 18 18
+%%Page: 19 19
+save
+mark
+19 pagesetup
+10 R f
+( \( JKL \))3 286( TRANSLIT)1 1792( 1.03)1 208( Version)1 1625(TRANSLIT \( JKL \))3 769 5 720 480 t
+(of a complete distribution.)3 1079 1 1480 960 t
+9 B f
+(AUTHOR)720 1248 w
+10 R f
+( jkl)1 195( E-mail:)1 422(Jan Labanowski, P.O. Box 21821, Columbus, OH 43221-0821, USA.)8 3284 3 1080 1368 t
+10 S1 f
+(@)4981 1368 w
+10 R f
+(ccl.net,)5073 1368 w
+(JKL)1080 1488 w
+10 S1 f
+(@)1252 1488 w
+10 R f
+(OHSTPY.BITNET.)1344 1488 w
+( 19)1 1817( change: 22-Jan-1997)2 875(JKL Last)1 1988 3 720 7680 t
+cleartomark
+showpage
+restore
+%%EndPage: 19 19
+%%Trailer
+done
+%%DocumentFonts: Times-Roman Times-Bold Times-Italic Symbol
+%%Pages: 19
